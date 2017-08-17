@@ -1,0 +1,10 @@
+{
+  "name": "testpro",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "thunderBall.wu",
+  "license": "MIT",
+  "dependencies": {
+    "chromeless": "^1.2.0"
+  }
+}
