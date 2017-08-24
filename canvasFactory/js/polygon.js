@@ -50,7 +50,11 @@ Polygon.prototype = {
       context.fillStyle = this.fillStyle;
       context.fill();
       context.restore();
-   }
+   },
+   move:function(x,y){
+     this.x = x;
+     this.y = y;
+   } 
 
 }
 
