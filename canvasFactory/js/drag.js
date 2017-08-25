@@ -115,5 +115,48 @@ function updateEndAndControlPoints(){
 
     endPoints[1].x = rubberbandRect.left+rubberbandRect.width;
     endPoints[1].y = rubberbandRect.top+rubberbandRect.height;
+
+    controlPoints[0].x = rubberbandRect.left;
+    controlPoints[0].y = rubberbandRect.top+rubberbandRect.height;
+
+    controlPoints[1].x = rubberbandRect.left + rubberbandRect.width;
+    controlPoints[1].y = rubberbandRect.top;
 }
 
+
+function drawRubberbandShape(loc){
+    updateEndAndControlPoints();
+    drawBezierCurve();
+}
+
+
+function drawHorizontalBuidewire(y){
+    context.beginPath();
+    context.moveTo(0,y*0.5);
+    context.lineTo(context.canvas.width,y*0.5);
+    contet.stroke();
+}
+
+
+function drawVerticalGuideWire(x){
+    context.beginPath();
+    context.moveTo(0,y*0.5);
+    context.lineTo(x*0.5,context.canvas.height);
+    contet.stroke();
+}
+
+function drawControlPonit(index){
+    context.beginPath();
+    context.arc(controlPoints[index].x,controlPoints[index].y,C_P_R,0,Math*PI*2,false);
+    context.stroke();
+    context.fill();
+}
+
+
+
+function drawControlPonits(){
+    context.save();
+    context.strokeStyle = C_P_S_S;
+    context.fillStyle = C_P_F_S;
+    drawControlPonit(0);
+}
