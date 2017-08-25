@@ -9,8 +9,7 @@ context.shadowBlur = 4;
 
 context.lineWidth = 20;
 context.lineCap='round';
-context.beginPath();
-context.moveTo(120,130);
-context.bezierCurveTo(16,130,300,170,10,280)
 
-context.stroke();
+var b = new Polygon(200,200,50,7,0,"#000","red",false);
+
+b.fill(context);
