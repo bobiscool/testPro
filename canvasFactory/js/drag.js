@@ -46,7 +46,7 @@ var canvas = document.getElementById('canvas'),
     guidewires = guideWireCheckBox.checked;
 
 
-function drawGird(color,stepx,stepy) {
+function drawGird(color, stepx, stepy) {
     context.save();
     context.shadowColor = undefined;
     context.shadowOffsetX = 0;
@@ -73,90 +73,213 @@ function drawGird(color,stepx,stepy) {
     context.restore();
 }
 
-function windowToCanvas(x,y){
+function windowToCanvas(x, y) {
     var bbox = canvas.getBoundingClientRect();
     return {
-        x:x-bbox.left*(canvas.width/bbox.width),
-        y:y-bbox.top*(canvas.height/bbox.height)//这一个比值看得我云里雾里
+        x: x - bbox.left * (canvas.width / bbox.width),
+        y: y - bbox.top * (canvas.height / bbox.height)//这一个比值看得我云里雾里
     }
 }
 
-function saveDrawingSurface(){
-    drawImageData = context.getImagedata(0,0,canvas.width,canvas.height);
+function saveDrawingSurface() {
+    drawImageData = context.getImagedata(0, 0, canvas.width, canvas.height);
 }
 
-function restoreDrawingSurface(){
-    context.putImageData(drawImageData,0,0);
+function restoreDrawingSurface() {
+    context.putImageData(drawImageData, 0, 0);
 }
 
 //拖动框 部分
 
-function updateRubberbandReactangle(loc){
+function updateRubberbandReactangle(loc) {
     rubberbandRect.width = Math.abs(loc.x - mousedown.x);
     rubberbandRect.height = Math.abs(loc.y - mousedown.y);
-    loc.x>mousedown.x?rubberbandRect.left = mousedown.x:rubberbandRect.left = loc.x;
-    loc.y>mousedown.y?rubberbandRect.top = mousedown.y:rubberbandRect.top = loc.y;
+    loc.x > mousedown.x ? rubberbandRect.left = mousedown.x : rubberbandRect.left = loc.x;
+    loc.y > mousedown.y ? rubberbandRect.top = mousedown.y : rubberbandRect.top = loc.y;
 }
 
-function drawBezierCurve(){
+function drawBezierCurve() {
     context.beiginPath();
-    context.moveTo(endPoints[0].x,endPoints[0].y);
-    context.bezierCurveTo(controlPoints[0].x,controlPoints[0].y,
-                            controlPoints[1].x,controlPoints[1].y,
-                            endPoints[1].x,endPoints[1].y);
+    context.moveTo(endPoints[0].x, endPoints[0].y);
+    context.bezierCurveTo(controlPoints[0].x, controlPoints[0].y,
+        controlPoints[1].x, controlPoints[1].y,
+        endPoints[1].x, endPoints[1].y);
 
-    context.stroke();                        
+    context.stroke();
 }
 
 
-function updateEndAndControlPoints(){
+function updateEndAndControlPoints() {
     endPoints[0].x = rubberbandRect.left;
     endPoints[0].y = rubberbandRect.top;
 
-    endPoints[1].x = rubberbandRect.left+rubberbandRect.width;
-    endPoints[1].y = rubberbandRect.top+rubberbandRect.height;
+    endPoints[1].x = rubberbandRect.left + rubberbandRect.width;
+    endPoints[1].y = rubberbandRect.top + rubberbandRect.height;
 
     controlPoints[0].x = rubberbandRect.left;
-    controlPoints[0].y = rubberbandRect.top+rubberbandRect.height;
+    controlPoints[0].y = rubberbandRect.top + rubberbandRect.height;
 
     controlPoints[1].x = rubberbandRect.left + rubberbandRect.width;
     controlPoints[1].y = rubberbandRect.top;
 }
 
 
-function drawRubberbandShape(loc){
+function drawRubberbandShape(loc) {
     updateEndAndControlPoints();
     drawBezierCurve();
 }
 
 
-function drawHorizontalBuidewire(y){
+function drawHorizontalBuidewire(y) {
     context.beginPath();
-    context.moveTo(0,y*0.5);
-    context.lineTo(context.canvas.width,y*0.5);
+    context.moveTo(0, y * 0.5);
+    context.lineTo(context.canvas.width, y * 0.5);
     contet.stroke();
 }
 
 
-function drawVerticalGuideWire(x){
+function drawVerticalGuideWire(x) {
     context.beginPath();
-    context.moveTo(0,y*0.5);
-    context.lineTo(x*0.5,context.canvas.height);
+    context.moveTo(0, y * 0.5);
+    context.lineTo(x * 0.5, context.canvas.height);
     contet.stroke();
 }
 
-function drawControlPonit(index){
+function drawControlPonit(index) {
     context.beginPath();
-    context.arc(controlPoints[index].x,controlPoints[index].y,C_P_R,0,Math*PI*2,false);
+    context.arc(controlPoints[index].x, controlPoints[index].y, C_P_R, 0, Math * PI * 2, false);
     context.stroke();
     context.fill();
 }
 
 
 
-function drawControlPonits(){
+function drawControlPonits() {
     context.save();
     context.strokeStyle = C_P_S_S;
     context.fillStyle = C_P_F_S;
     drawControlPonit(0);
+    drawControlPonit(1);
+
+    context.stroke();
+    context.fill();
+    context.restore();
+
 }
+
+
+function drawControlAndEndPonits() {
+    drawControlPonits();
+    drawEndPoints();
+}
+
+function coursorInEndPoint() {
+    var pt;
+
+    endPoints.forEach(function (point) {
+        context.beginPath();
+        context.arc(point.x, point.y, C_P_R, 0, Math.PI * 2, false);
+        /**
+         * 难道每次判断之前 必须重绘一下 然后再去判断。。。有点醉啊
+         */
+        if (context.isPointInPath(loc.x, loc.y)) {
+            pt = point;
+        }
+
+    });
+
+    //这是干嘛？
+    return pt;
+}
+
+
+function cursorInControlPoint(loc) {
+    var pt;
+
+    controlPoints.forEach(function (point) {
+        context.beginPath();
+        context.arc(point.x, point.y, C_P_R, 0, Math.PI * 2, false);
+        /**
+         * 难道每次判断之前 必须重绘一下 然后再去判断。。。有点醉啊
+         */
+        if (context.isPointInPath(loc.x, loc.y)) {
+            pt = point;
+        }
+
+    });
+
+    //这是干嘛？
+    return pt;
+}
+
+function updateDraggingPoint(loc) {
+    draggingPoint.x = loc.x;
+    draggingPoint.y = loc.y;
+}
+
+
+//好了 开始 处理canvas点击事件了
+
+canvas.onmousedown = function (e) {
+    var loc = windowToCanvas(e.clientX, e.clientY);
+    e.preventDefault();
+
+    if (!editing) {
+        saveDrawingSurface();
+        mousedown.x = loc.x;
+        mousedown.y = loc.y;
+        updateRubberbandReactangle();
+        dragging = true;
+    } else {
+        draggingPoint = cursorInControlPoint(loc);
+        if (!draggingPoint) {
+            draggingPoint = cursorInEndPoint(loc);
+        }
+    }
+}
+
+
+canvas.onmousemove = function (e) {
+    var loc = windowToCanvas(e.clientX, e.clientX);
+    if (dragging || draggingPoint) {
+        e.preventDefault();
+        restoreDrawingSurface();
+
+        if (guidewires) {
+            drawGuidewires(loc.x, loc.y);
+        }
+    }
+
+    if (dragging) {
+        updateRubberband(loc);
+        drawControlAndEndPonits();
+    } else if (draggingPoint) {
+        updateDraggingPoint(loc);
+        drawControlAndEndPonits();
+        drawBezierCurve();
+    }
+}
+
+
+canvas.onmouseup = function (e) {
+    loc = windowToCanvas(e.clientX, e.clientY);
+
+    restoreDrawingSurface();
+
+    if (!editing) {
+        updateRubberband(loc);
+        drawControlPonits();
+        dragging = false;
+        editing = true;
+        // if( showInstructions){
+        //     instru
+        // }
+    }else{
+        if(draggingPoint)drawControlAndEndPonits()
+        else    editing = false;  
+        
+        drawBezierCurve();
+        draggingPoint = undefined;
+    }
+}
+
