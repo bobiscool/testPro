@@ -94,7 +94,8 @@ function restoreDrawingSurface(){
 function updateRubberbandReactangle(loc){
     rubberbandRect.width = Math.abs(loc.x - mousedown.x);
     rubberbandRect.height = Math.abs(loc.y - mousedown.y);
-    
+    loc.x>mousedown.x?rubberbandRect.left = mousedown.x:rubberbandRect.left = loc.x;
+    loc.y>mousedown.y?rubberbandRect.top = mousedown.y:rubberbandRect.top = loc.y;
 }
 
 
