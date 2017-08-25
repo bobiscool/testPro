@@ -1,9 +1,9 @@
 var canvas = document.getElementById('canvas'),
     context = canvas.getContext('2d'),
 
-    eraseAllbutton = document.getElementById('easeAllButton'),
+    eraseAllbutton = document.getElementById('eraseAllButton'),
     strokeStyleSelect = document.getElementById('strokeStyleSelect'),
-    guideWireCheckBox = document.getElementById('guideWireCheckBox'),
+    guideWireCheckBox = document.getElementById('guidewireCheckbox'),
     instructions = document.getElementById('instructions'),
 
     A_M = 40,
@@ -42,8 +42,9 @@ var canvas = document.getElementById('canvas'),
 
     endPoints = [{}, {}],
     controlPoints = [{}, {}],
-    editing = false,
-    guidewires = guideWireCheckBox.checked;
+    editing = false;
+console.log(guideWireCheckBox);
+var guidewires = guideWireCheckBox.checked;
 
 
 function drawGird(color, stepx, stepy) {
@@ -82,7 +83,7 @@ function windowToCanvas(x, y) {
 }
 
 function saveDrawingSurface() {
-    drawImageData = context.getImagedata(0, 0, canvas.width, canvas.height);
+    drawImageData = context.getImageData(0, 0, canvas.width, canvas.height);
 }
 
 function restoreDrawingSurface() {
@@ -99,7 +100,7 @@ function updateRubberbandReactangle(loc) {
 }
 
 function drawBezierCurve() {
-    context.beiginPath();
+    context.beginPath();
     context.moveTo(endPoints[0].x, endPoints[0].y);
     context.bezierCurveTo(controlPoints[0].x, controlPoints[0].y,
         controlPoints[1].x, controlPoints[1].y,
@@ -123,6 +124,16 @@ function updateEndAndControlPoints() {
     controlPoints[1].y = rubberbandRect.top;
 }
 
+function drawRubberbandShape(loc){
+    updateEndAndControlPoints();
+    drawBezierCurve()
+}
+
+function updateRubberband(loc){
+   updateRubberbandReactangle(loc);
+   drawRubberbandShape(loc);
+}
+
 
 function drawRubberbandShape(loc) {
     updateEndAndControlPoints();
@@ -130,24 +141,30 @@ function drawRubberbandShape(loc) {
 }
 
 
-function drawHorizontalBuidewire(y) {
+function drawHorizontalBuidewire(x) {
     context.beginPath();
-    context.moveTo(0, y * 0.5);
-    context.lineTo(context.canvas.width, y * 0.5);
-    contet.stroke();
+    context.moveTo(x + 0.5,0);
+    context.lineTo( x + 0.5,context.canvas.height);
+    context.stroke();
 }
 
 
-function drawVerticalGuideWire(x) {
+
+function drawVerticalGuideWire(y) {
     context.beginPath();
-    context.moveTo(0, y * 0.5);
-    context.lineTo(x * 0.5, context.canvas.height);
-    contet.stroke();
+    context.moveTo(0, y + 0.5);
+    context.lineTo(context.canvas.width, y + 0.5);
+    context.stroke();
+}
+
+function drawGuidewires(x, y) {
+    drawHorizontalBuidewire(x);
+    drawVerticalGuideWire(y);
 }
 
 function drawControlPonit(index) {
     context.beginPath();
-    context.arc(controlPoints[index].x, controlPoints[index].y, C_P_R, 0, Math * PI * 2, false);
+    context.arc(controlPoints[index].x, controlPoints[index].y, C_P_R, 0, Math.PI * 2, false);
     context.stroke();
     context.fill();
 }
@@ -167,6 +184,26 @@ function drawControlPonits() {
 
 }
 
+
+function drawEndPoints() {
+    context.save();
+    context.strokeStyle = E_P_S_S;
+    context.fillStyle = E_P_F_S;
+    drawEndPonit(0);
+    drawEndPonit(1);
+
+    context.stroke();
+    context.fill();
+    context.restore();
+
+}
+
+function drawEndPonit(index) {
+    context.beginPath();
+    context.arc(endPoints[index].x, endPoints[index].y, C_P_R, 0, Math.PI * 2, false);
+    context.stroke();
+    context.fill();
+}
 
 function drawControlAndEndPonits() {
     drawControlPonits();
@@ -228,7 +265,7 @@ canvas.onmousedown = function (e) {
         saveDrawingSurface();
         mousedown.x = loc.x;
         mousedown.y = loc.y;
-        updateRubberbandReactangle();
+        updateRubberbandReactangle(loc);
         dragging = true;
     } else {
         draggingPoint = cursorInControlPoint(loc);
@@ -274,12 +311,34 @@ canvas.onmouseup = function (e) {
         // if( showInstructions){
         //     instru
         // }
-    }else{
-        if(draggingPoint)drawControlAndEndPonits()
-        else    editing = false;  
-        
+    } else {
+        if (draggingPoint) drawControlAndEndPonits()
+        else editing = false;
+
         drawBezierCurve();
         draggingPoint = undefined;
     }
 }
 
+
+eraseAllButton.onclick = function (e) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    drawGrid(GRID_STROKE_STYLE, GRID_SPACING, GRID_SPACING);
+
+    saveDrawingSurface();
+
+    editing = false;
+    dragging = false;
+    draggingPoint = undefined;
+};
+
+strokeStyleSelect.onchange = function (e) {
+    context.strokeStyle = strokeStyleSelect.value;
+};
+
+guidewireCheckbox.onchange = function (e) {
+    guidewires = guidewireCheckbox.checked;
+};
+
+context.strokeStyle = strokeStyleSelect.value;
+drawGird(G_S_S, G_S, G_S);
