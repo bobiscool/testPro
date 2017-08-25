@@ -98,5 +98,22 @@ function updateRubberbandReactangle(loc){
     loc.y>mousedown.y?rubberbandRect.top = mousedown.y:rubberbandRect.top = loc.y;
 }
 
+function drawBezierCurve(){
+    context.beiginPath();
+    context.moveTo(endPoints[0].x,endPoints[0].y);
+    context.bezierCurveTo(controlPoints[0].x,controlPoints[0].y,
+                            controlPoints[1].x,controlPoints[1].y,
+                            endPoints[1].x,endPoints[1].y);
 
+    context.stroke();                        
+}
+
+
+function updateEndAndControlPoints(){
+    endPoints[0].x = rubberbandRect.left;
+    endPoints[0].y = rubberbandRect.top;
+
+    endPoints[1].x = rubberbandRect.left+rubberbandRect.width;
+    endPoints[1].y = rubberbandRect.top+rubberbandRect.height;
+}
 
