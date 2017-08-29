@@ -1,7 +1,7 @@
 var canvas = document.getElementById('haha'),
     context = canvas.getContext('2d');
 
-TextCursor = function () {
+TextCursor = function (fillStyle,width) {
     this.fillStyle = fillStyle || 'rgba(0,0,0,0.5)';
     this.width = width || 2;
     this.left = 0;
