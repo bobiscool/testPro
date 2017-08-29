@@ -38,7 +38,7 @@ TextCursor.prototype = {
             this.left,
             this.top,
             this.width,
-            this.getHeight(context))
+            20)
     }
 
 }
