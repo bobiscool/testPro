@@ -1,4 +1,4 @@
-Textline = function () {
+Textline = function (x,y) {
     this.text = '';
     this.left = x;
     this.bottom = y;
