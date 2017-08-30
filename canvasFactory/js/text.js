@@ -26,7 +26,7 @@ TextCursor.prototype = {
         context.save();
         this.left = left;
         this.top = bottom - this.getHeight(context);
-        console.log(this.left);
+        // console.log(this.left);
         this.createPath(context);
         context.fillStyle = this.fillStyle;
         context.fill();

@@ -6,7 +6,7 @@ var cursor = new TextCursor();
 
 function saveSurfaceImageData() {
     drawingSurfaceImageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    console.log(drawingSurfaceImageData);
+    // console.log(drawingSurfaceImageData);
 }
 
 
@@ -19,7 +19,7 @@ function getLocation(x, y) {
 
 saveSurfaceImageData();
 function moveCursor(loc) {
-    context.putImageData(drawingSurfaceImageData,0,0);
+    context.putImageData(drawingSurfaceImageData, 0, 0);
     cursor.draw(context, loc.x, loc.y);
     blinkCursor(loc)
 }
@@ -46,5 +46,49 @@ function blinkCursor(loc) {
 
 canvas.onmousedown = function (e) {
     var loc = getLocation(e.clientX, e.clientY);
+
+    // 创建 文字 
+    line = new Textline(loc.x, loc.y);
     moveCursor(loc);
+}
+
+
+document.onkeydown = function (e) {
+    if (e.keyCode == 8 || e.keyCode == 13) {
+        e.preventDefault();
+    }
+    // console.log(e.keyCode);
+
+    if (e.keyCode == 32) {
+        context.save();
+
+        line.erase(context, drawingSurfaceImageData);
+        line.removeCharacterBeforeCaret();// 这是干嘛 我就不知道了
+
+        moveCursor(line.left + line.getWidth(context), line.bottom);
+        line.draw(context);
+        context.restore();
+    }
+}
+
+
+document.onkeypress = function (e) {
+    var key = String.fromCharCode(e.which);
+    if (e.keyCode !== 32 && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        context.save();
+
+        line.erase(context, drawingSurfaceImageData);
+        line.insert(key);
+      
+        moveCursor(line.left + line.getWidth(context), line.bottom);
+        context.shadowColor = 'rgba(0,0,0,0.5)';
+        // context.shadowOffsetX = 1;
+        // context.shadowOffsety = 1;
+        // context.shadowBlur = 2;
+        line.draw(context);
+        context.restore();
+    }
+
+
 }
