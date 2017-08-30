@@ -19,6 +19,7 @@ function getLocation(x, y) {
 
 saveSurfaceImageData();
 function moveCursor(loc) {
+    console.log('换位置');
     context.putImageData(drawingSurfaceImageData, 0, 0);
     cursor.draw(context, loc.x, loc.y);
     blinkCursor(loc)
@@ -37,6 +38,7 @@ function blinkCursor(loc) {
             //  console.log(';;;')
 
             // console.log(cursor.left, loc.x);
+    console.log('闪呀闪');
 
         }, 200)
     }, 500)
@@ -59,13 +61,13 @@ document.onkeydown = function (e) {
     }
     // console.log(e.keyCode);
 
-    if (e.keyCode == 32) {
+    if (e.keyCode == 8) {
         context.save();
 
         line.erase(context, drawingSurfaceImageData);
-        line.removeCharacterBeforeCaret();// 这是干嘛 我就不知道了
+        line.removeCharacterBeforeCaret();// 删除 
 
-        moveCursor(line.left + line.getWidth(context), line.bottom);
+        moveCursor({x:line.left + line.getWidth(context),y:line.bottom});
         line.draw(context);
         context.restore();
     }
@@ -74,14 +76,15 @@ document.onkeydown = function (e) {
 
 document.onkeypress = function (e) {
     var key = String.fromCharCode(e.which);
-    if (e.keyCode !== 32 && !e.ctrlKey && !e.metaKey) {
+    if (e.keyCode !== 8 && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         context.save();
 
         line.erase(context, drawingSurfaceImageData);
         line.insert(key);
-      
-        moveCursor(line.left + line.getWidth(context), line.bottom);
+        console.log(line.bottom);
+
+        moveCursor({x:line.left + line.getWidth(context),y:line.bottom});
         context.shadowColor = 'rgba(0,0,0,0.5)';
         // context.shadowOffsetX = 1;
         // context.shadowOffsety = 1;
