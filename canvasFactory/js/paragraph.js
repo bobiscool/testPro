@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-08-31 09:25:53 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-08-31 18:06:29
+ * @Last Modified time: 2017-08-31 18:12:26
  * 段落对象
  */
 
@@ -58,7 +58,16 @@ paragraph.prototype = {
        //擦除掉文本行
        this.activeLine.text = textBeforeCursor;
        // 记录下以前的文字 
-       // 
+       // 新建一个文本行
+
+       line = new Textline(this.activeLine.left,bottom);
+       line.insert(textAfterCursor);
+
+       activeIndex = this.lines.indexOf(this.activeIndex);
+       for(var i = activeIndex+1;i<this.lines.length;++i){
+           line = this.lines[i];
+           line.bottom +=height;
+       }
    } 
 
 }
