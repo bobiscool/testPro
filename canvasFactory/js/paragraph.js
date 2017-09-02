@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-08-31 09:25:53 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-01 10:04:01
+ * @Last Modified time: 2017-09-02 17:25:21
  * 段落对象
  */
 
@@ -54,9 +54,25 @@ paragraph.prototype = {
         return widest;
     },
     draw: function () {
-      this.lines.forEach(function(lines){
-           line.draw(this.context);
-      });
+        this.lines.forEach(function (lines) {
+            line.draw(this.context);
+        });
+    },
+    erase: function (context, imagedata) {
+        context.putImageData(imagedata, 0, 0);
+    },
+    blinkCursor: function () {
+        var _self = this,
+            BLINK_OUT = 200,
+            BLINK_INTERVAL = 900;
+
+        this.blinkingInterval = setInterval(function (e) {
+            _self.cursor.erase(context, _self.drawingSurface);
+            setTimeout(function (e) {
+                _self.cursor.draw(context, cursor.left, cursor.top + cursor.getHeight(context));
+            }, BLINK_OUT);
+        }, BLINK_INTERVAL);
+
     },
     moveCursor: function () {
         this.cursor.erase(this.context, this.drawingSurface);
@@ -93,8 +109,6 @@ paragraph.prototype = {
         // 记录下以前的文字 
         // 新建一个文本行
 
-
-
         line = new Textline(this.activeLine.left, bottom);
         line.insert(textAfterCursor);
 
@@ -111,6 +125,17 @@ paragraph.prototype = {
         this.draw();
         this.cursor.draw(this.context, this.activeLine.left, this.activeLine.bottom);
 
+    },
+    getLine: function (y) {
+        var line;
+        for (i = 0; i < this.lines.length; ++i) {
+            line = this.lines[i];
+            if (y > line.bottom - line.getHeight(context) && y < line.bottom) {
+                return line;
+            }
+
+            return undefined;
+        }
     },
     backspace: function () {
         var lastActiveline,
@@ -138,6 +163,61 @@ paragraph.prototype = {
             this.activeLine.draw(this.context);
         }
         this.context.restore();
+    },
+    getColumn: function (line, x) {
+        var found = false;
+        before,
+            after,
+            tempLine,
+            column;
+
+        tempLine = new TextLine(line.left, line.bottom);
+        tempLine.insert(line.text);
+
+        while (!found && tempLine.text.length > 0) {
+            before = tempLine.left + tempLine.getWidth(context);
+            tempLine.removeCharacterBeforeCaret();
+            after = tempLine.left + tempLine.getWidth(context);
+
+            if (after < x) {
+                closest = x - after < before - x ? after : before;
+                column = closest === before ? tempLine.text.length + 1 : tempLine.text.length;
+                found = true;
+            }
+        }
+
+        return column;
+
+        // tempLine = new Text
+    },
+    activeLineIsOutOfText: function () {
+        return this.activeLine.text.length === 0;
+    },
+    activeLineIsTopLine: function () {
+        return this.lines[0] === this.activeLine;
+    },
+    moveUpOneLine: function () {
+        var lastActiveText, line, before, after;
+
+        lastActiveline = this.activeLine;
+        lastActiveText = '' + lastActiveline.text;
+
+        activeIndex = this.lines.indexOf(this.activeLine);
+
+        this.activeLine = this.lines[activeIndex - 1];
+        this.activeLine.caret = this.activeLine.text.length;;
+
+        this.lines.splice(activeIndex, 1);
+
+        this.moveCursor(this.activeLine.left, this.activeLine.getWidth(this.context), this.activeLine.bottom);
+
+        this.activeLine.text += lastActiveText;
+        
+        for(var i=activeIndex;i<this.lines.length;++i){
+            line = this.lines[i];
+            line.bottom -= line.getHeight(this.context);
+        }
+
     }
 
 }
