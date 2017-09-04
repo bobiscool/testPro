@@ -19,7 +19,32 @@ function update() {
         ball.x = -ball.x;
     }
 
-    if (ball.y + ball.vY + ball.r > height || ball.y < 0 + ball.v - ball.r < 0) {y
+    if (ball.y + ball.vY + ball.r > height || ball.y < 0 + ball.vY - ball.r < 0) {y
         ball.y = -ball.y;
     }
+
+    ball.x +=ball.vX;
+    ball.y +=ball.vY;
 }
+
+
+function draw(){
+
+context.save();
+context.beiginPath();
+context.arc(ball.x,ball.y,ball.r,0,Math.PI*2,false);
+context.fillStyle="#000";
+context.fill();
+contex.restore();
+}
+
+
+
+function animate(time){
+    context.clearRect(0,0,width,height);
+    update();
+    draw();
+    window.requetNestAnimationFrame(animate);
+}
+
+animate();
