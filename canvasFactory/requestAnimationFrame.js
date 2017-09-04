@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-04 09:45:05 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-04 23:24:21
+ * @Last Modified time: 2017-09-04 23:32:14
  */
 
 window.requestNextAnimationFrame = (function () {
@@ -39,7 +39,28 @@ window.requestNextAnimationFrame = (function () {
         index = userAgent.indexOf('rv:');
         
         if(userAgent.indexOf('Gecko')!=-1){
-            
+            geckoVersion = userAgent.substr(index+3,3);
+            if(geckoVersion === '2.0'){
+                window.mozRequestAnimationFrame = undefined;
+            }
+        }
+
+
+        return window.requestAnimationFrame||
+        window.webkitRequestAnimationFrame||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame||
+        window.msRequestAnimationFrame||function(callback,element){
+            var start,
+            finish;
+
+            window.setTimeout(function(){
+               start = +new Date();
+               callback(start);
+               finish = +new Date();
+
+               self.timeout = 1000/60 - (finish - start);
+            },self.timeout)
         }
     }
 
