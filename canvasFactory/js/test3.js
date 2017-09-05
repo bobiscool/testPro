@@ -15,11 +15,11 @@ var ball = {
 
 function update() {
     if (ball.x + ball.vX + ball.r > width || ball.x < 0 + ball.vX - ball.r < 0) {
-
+        
         ball.x = -ball.x;
     }
 
-    if (ball.y + ball.vY + ball.r > height || ball.y < 0 + ball.vY - ball.r < 0) {y
+    if (ball.y + ball.vY + ball.r > height || ball.y < 0 + ball.vY - ball.r < 0) {
         ball.y = -ball.y;
     }
 
@@ -31,20 +31,23 @@ function update() {
 function draw(){
 
 context.save();
-context.beiginPath();
+context.beginPath();
 context.arc(ball.x,ball.y,ball.r,0,Math.PI*2,false);
 context.fillStyle="#000";
 context.fill();
-contex.restore();
+context.restore();
 }
 
 
 
 function animate(time){
+    console.log('animate');
     context.clearRect(0,0,width,height);
     update();
     draw();
-    window.requetNestAnimationFrame(animate);
+    console.log( window.requestNextAnimationFrame);
+    window.requestNextAnimationFrame(animate);
+    // window.requestAnimationFrame(animate);
 }
 
 animate();
