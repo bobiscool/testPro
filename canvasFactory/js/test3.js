@@ -12,15 +12,19 @@ var ball = {
     width = context.canvas.width,
     height = context.canvas.height;
 
+    
 
 function update() {
-    if (ball.x + ball.vX + ball.r > width || ball.x < 0 + ball.vX - ball.r < 0) {
-        
-        ball.x = -ball.x;
+
+
+    if (ball.x + ball.vX + ball.r > width || ball.x + ball.vX - ball.r < 0) {
+        console.log('撞了');
+        ball.vX = -ball.vX;
+        console.log(ball.x);
     }
 
-    if (ball.y + ball.vY + ball.r > height || ball.y < 0 + ball.vY - ball.r < 0) {
-        ball.y = -ball.y;
+    if (ball.y + ball.vY + ball.r > height || ball.y+ ball.vY - ball.r < 0) {
+        ball.vY = -ball.vY;
     }
 
     ball.x +=ball.vX;
@@ -41,11 +45,11 @@ context.restore();
 
 
 function animate(time){
-    console.log('animate');
+    // console.log('animate');
     context.clearRect(0,0,width,height);
     update();
     draw();
-    console.log( window.requestNextAnimationFrame);
+    // console.log( window.requestNextAnimationFrame);
     window.requestNextAnimationFrame(animate);
     // window.requestAnimationFrame(animate);
 }
