@@ -5,9 +5,9 @@ var ball = {
     y: 250,
     lastX: 150,
     lastY: 250,
-    vX: -3.2,
-    vY: 3.5,
-    r: 35
+    vX: -1.2,
+    vY: 1,
+    r: 1
 },
     width = context.canvas.width,
     height = context.canvas.height;
@@ -46,7 +46,7 @@ context.restore();
 
 function animate(time){
     // console.log('animate');
-    context.clearRect(0,0,width,height);
+    // context.clearRect(0,0,width,height);
     update();
     draw();
     // console.log( window.requestNextAnimationFrame);
