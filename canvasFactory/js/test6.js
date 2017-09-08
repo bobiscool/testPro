@@ -30,7 +30,17 @@ var canvas = document.getElementById('canvas'),
     },
     moveLeftToRight={
         lastMove:0,
-        execute:function(){
-            
+        execute:function(sprite,context,time){
+           if(this.lastMove !==0){
+               sprite.left -=sprite.vX*((time - this.lastMove)/1000);
+               if(sprite.left < 0){
+                   sprite.left = canvas.width;
+               }
+           }
+
+           this.lastMove = time;
         }
     }
+
+
+    sprite = new Sprite('runner',new SpriteSheetPainter(runnerCells),[runInplace,moveLeftToRight]);
