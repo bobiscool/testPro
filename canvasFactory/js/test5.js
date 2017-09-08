@@ -1,17 +1,21 @@
 var canvas = document.getElementById('canvas');
-canvas.width=800;
-canvas.height=800;
+canvas.width = 800;
+canvas.height = 800;
 var context = document.getElementById('canvas').getContext('2d');
-
-
+var img = new Image();
+img.src = "./js/rhino.jpg";
 RANDIUS = 75;
+img.onload = function () {
+ context.drawImage(img, 1, 1);
+
+}
 
 ball = new Sprite('ball', {
     paint: function (sprite, context) {
         context.beginPath();
         // context.arc(sprite.left + sprite.width / 2, sprite.top + sprite.height / 2, RANDIUS, 0, Math.PI * 2, false);
         context.arc(sprite.left + sprite.width / 2, sprite.top + sprite.height / 2, RANDIUS, 0, Math.PI * 2, false);
-        context.clip();
+        // context.clip();
 
         context.shadowColor = 'rgb(0,0,0)';
         context.shadowOffsetX = -4;
