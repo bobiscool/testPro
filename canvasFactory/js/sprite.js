@@ -5,6 +5,7 @@ var Sprite = function (name, painter, behaviors) {
   this.top = 0;
   this.left = 0;
   this.width = 0;
+  this.height = 0;
   this.velocityX = 0;
   this.velocityY = 0;
   this.visible = true;
@@ -16,8 +17,9 @@ var Sprite = function (name, painter, behaviors) {
 
 Sprite.prototype = {
   paint: function (context) {
+    var _self = this;
     if (this.painter !== undefined && this.visible) {
-      this.painter.paint(this, context);
+      this.painter.paint(_self, context);
     }
   },
   updated: function (context,time) {
