@@ -44,3 +44,26 @@ var canvas = document.getElementById('canvas'),
 
 
     sprite = new Sprite('runner',new SpriteSheetPainter(runnerCells),[runInplace,moveLeftToRight]);
+
+
+    function animate(time){
+        context.clearRect(0,0,canvas.width,canvas.height);
+
+        context.drawImage(sheetImg,0,0);
+
+        sprite.updated(context,time);
+
+        sprite.paint(context,sheetImg);
+
+        window.requestAnimationFrame(animate);
+    }
+
+    sheetImg.onload = function(){
+        context.drawImage(sheetImg,0,0);
+    }
+
+    sprite.vX = 50;
+    sprite.top = 200;
+    sprite.left = 100;
+
+    animate();

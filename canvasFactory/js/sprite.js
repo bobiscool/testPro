@@ -16,10 +16,10 @@ var Sprite = function (name, painter, behaviors) {
 }
 
 Sprite.prototype = {
-  paint: function (context) {
+  paint: function (context,sheetImg) {
     var _self = this;
     if (this.painter !== undefined && this.visible) {
-      this.painter.paint(_self, context);
+      this.painter.paint(_self, context,sheetImg);
     }
   },
   updated: function (context,time) {
