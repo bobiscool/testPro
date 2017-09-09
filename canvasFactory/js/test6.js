@@ -26,18 +26,21 @@ var canvas = document.getElementById('canvas'),
                        sprite.painter.advance();
                        this.lastAdvance = time;
                    }
+
+                   console.log(sprite);
         }
     },
     moveLeftToRight={
         lastMove:0,
         execute:function(sprite,context,time){
            if(this.lastMove !==0){
-               sprite.left -=sprite.vX*((time - this.lastMove)/1000);
+               sprite.left -=sprite.vX*((time - this.lastMove)/1000)?sprite.vX*((time - this.lastMove)/1000):0;
                if(sprite.left < 0){
                    sprite.left = canvas.width;
                }
-           }
 
+            //    console.log(sprite.left);
+           }
            this.lastMove = time;
         }
     }
@@ -51,7 +54,7 @@ var canvas = document.getElementById('canvas'),
 
         context.drawImage(sheetImg,0,0);
 
-        sprite.updated(context,time);
+        sprite.updated(context,time);  
 
         sprite.paint(context,sheetImg);
 
