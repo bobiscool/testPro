@@ -23,7 +23,13 @@ SpriteAnimator.prototype = {
         sprite.painter = this.painters[this.index];
         requestNextAnimationFrame(function spriteAnimationAnimate(time){
             if(time < endTime){
-                
+                if((time - lastUpdate)>period){
+                    sprite.painter = animator.painters[++animator.index];
+                    lastUpdate = time;
+                }
+                requestNextAnimationFrame(spriteAnimationAnimate);
+            }else{
+                animator.end(sprite,originalPainter);
             }
         })
     }
