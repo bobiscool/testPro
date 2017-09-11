@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-11 14:06:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-11 14:58:10
+ * @Last Modified time: 2017-09-11 15:12:32
  * 缓动效果 动画控制器 
  */
 Stopwatch.prototype = {
@@ -10,6 +10,7 @@ Stopwatch.prototype = {
     running:fasle,
     elapased: undefined,
     elapasedTime: 0,
+    DEFAULT_ELASTIC_PASSES:3,
     start:function(){
         this.startTime = +new Date();
         this.elapasedTime = undefined;
@@ -71,5 +72,8 @@ AnimationTimer.prototype = {
     },
     idOver:function(){
         return this.stopwatch.getElapsedTime() > this.duration;
-    }
+    },
+    /**
+     * 以下是缓动函数
+     */
 }
