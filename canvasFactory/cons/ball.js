@@ -30,8 +30,10 @@ Ball.prototype = {
     },
     paint: function (context) {
         context.save();
+        context.beginPath();
         context.fillStyle = "rgb(0,0,0)";
         context.arc(this.x, this.y, 10, 0, Math.PI * 2);
+        context.fill();
         context.restore();
     }
 
