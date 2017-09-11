@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-11 14:06:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-11 14:43:01
+ * @Last Modified time: 2017-09-11 14:58:10
  * 缓动效果 动画控制器 
  */
 Stopwatch.prototype = {
@@ -52,6 +52,24 @@ AnimationTimer = function(duration,timeWrap){
 
 AnimationTimer.prototype = {
     start:function(){
-        
+        this.stopwatch.start();
+    },
+    stop:function(){
+        this.stopwatch.stop();
+    },
+    getElapsedTime:function(){
+        var elapasedTime = this.stopwatch.getElapsedTime(),
+        percentComplete = elapasedTime/this.duration;
+
+        if(!this.stopwatch.running) return undefined;
+        if(this.timeWrap === undefined) return elapasedTime;
+
+        return elapasedTime*(this.timeWrap(percentComplete)/percentComplete);
+    },
+    isRunning:function(){
+        return this.stopwatch.running;
+    },
+    idOver:function(){
+        return this.stopwatch.getElapsedTime() > this.duration;
     }
 }
