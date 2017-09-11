@@ -6,7 +6,7 @@ function calcFps(now) {
     var fps = 1000 / (now - lastTime);
     // console.log(fps);
     lastTime = now;
-    if(fps<0){
+    if (fps < 0) {
         fps = 100;
     }
     return fps;
@@ -26,10 +26,13 @@ Ball.prototype = {
     },
     updateVy: function () {
         let now = new Date();
-           this.vY  += G/calcFps(now);
+        this.vY += G / calcFps(now);
     },
-    paint:function(){
-        
-    }    
+    paint: function (context) {
+        context.save();
+        context.fillStyle = "rgb(0,0,0)";
+        context.arc(this.x, this.y, 10, 0, Math.PI * 2);
+        context.restore();
+    }
 
 }
