@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-11 14:06:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-11 15:12:32
+ * @Last Modified time: 2017-09-11 15:45:37
  * 缓动效果 动画控制器 
  */
 Stopwatch.prototype = {
@@ -76,4 +76,17 @@ AnimationTimer.prototype = {
     /**
      * 以下是缓动函数
      */
+    makeEaseIn:function(strength){
+         return function(percentComplete){
+               return Math.pow(percentComplete,strength*2)
+         }
+    },
+    makeEaseOut:function(){
+         return function(percentComplete){
+              return 1 - Math.pow(1 - percentComplete,strength*2);
+         }
+    }
+
+
+
 }
