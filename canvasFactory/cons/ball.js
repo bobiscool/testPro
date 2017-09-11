@@ -1,4 +1,4 @@
-var G = 3;
+var G = 1;
 var fps = 10;
 var lastTime = new Date;
 
@@ -32,7 +32,7 @@ Ball.prototype = {
         context.save();
         context.beginPath();
         context.fillStyle = "rgb(0,0,0)";
-        context.arc(this.x, this.y, 10, 0, Math.PI * 2);
+        context.arc(this.x, this.y, 7, 0, Math.PI * 2);
         context.fill();
         context.restore();
     }

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-11 10:31:01 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-11 11:26:09
+ * @Last Modified time: 2017-09-11 11:27:12
  */
 
  var canvas = document.getElementById('ball'),
@@ -30,7 +30,7 @@ canvas.onclick = function(e){
 
     
 function animate(){
-    context.clearRect(0,0,800,800);
+    // context.clearRect(0,0,800,800);
     ball.updateVy();    
     ball.updatePosition();
     ball.paint(context);
