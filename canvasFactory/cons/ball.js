@@ -1,4 +1,4 @@
-var G = 9.8;
+var G = 3;
 var fps = 10;
 var lastTime = new Date;
 
