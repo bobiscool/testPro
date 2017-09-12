@@ -2,11 +2,10 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-04 09:45:05 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-05 09:19:51
+ * @Last Modified time: 2017-09-12 14:32:53
  */
 
 window.requestNextAnimationFrame = (function () {
-    console.log('初始化--')
     var originalWebkitMethod,
         wrapper = undefined,
         callback = undefined,

@@ -7,7 +7,7 @@ sheetImg.src = "./js/sheet.png"
 
 var ANIMATION_DURATION = 10000;
 
-var animationTimer = new AnimationTimer(ANIMATION_DURATION, AnimationTimer.prototype.makeEaseIn(7));
+var animationTimer = new AnimationTimer(ANIMATION_DURATION, AnimationTimer.prototype.makeEaseIn(2));
 
 
 // console.log(animationTimer);
@@ -26,15 +26,18 @@ var runnerCells = [
 
     runInplace = {
         lastAdvance: 0,
-        PAGECLIP_INTERVAL: 10000,
+        PAGECLIP_INTERVAL: 100,
         execute: function (sprite, context, time) {
             var elapsed = animationTimer.getElapsedTime();
-            // console.log(elapsed);
+            // console.log('out - last ',elapsed - this.lastAdvance);
             if (this.lastAdvance == 0) {
+                console.log('初始化')
                 this.lastAdvance = elapsed;
+                   console.log(this.lastAdvance);
+                   console.log(elapsed);
             } else if (this.lastAdvance != 0 && elapsed - this.lastAdvance>this.PAGECLIP_INTERVAL){
                 sprite.painter.advance();
-                console.log('更新步伐');
+                // console.log('更新步伐');
                 this.lastAdvance = time;
             }
 
@@ -65,13 +68,14 @@ animationTimer.start();
 function animate(time) {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
+    // console.log('time',time);
     context.drawImage(sheetImg, 0, 0);
 
     sprite.updated(context, time);
 
     sprite.paint(context, sheetImg);
 
-    window.requestAnimationFrame(animate);
+    requestNextAnimationFrame(animate);
 }
 
 sheetImg.onload = function () {

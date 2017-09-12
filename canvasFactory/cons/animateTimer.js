@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-11 14:06:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-12 14:20:30
+ * @Last Modified time: 2017-09-12 14:50:01
  * 缓动效果 动画控制器 
  */
 
@@ -81,10 +81,9 @@ AnimationTimer.prototype = {
          * the time I distorted to pass
          */
 
-         console.log('distorted',elapsedTime * (this.timeWrap(percentComplete) / percentComplete));
 
          //HERE IS THE KEY POINT !!
-        return elapsedTime * (this.timeWrap(percentComplete) / percentComplete);
+        return percentComplete?elapsedTime * (this.timeWrap(percentComplete) / percentComplete):0;
     },
     isRunning: function () {
         return this.stopwatch.running;
