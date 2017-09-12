@@ -1,13 +1,13 @@
 var canvas = document.getElementById('canvas'),
     context = canvas.getContext('2d'),
     sheetImg = new Image();
-
+var ANIMATION_ID = null;
 
 sheetImg.src = "./js/sheet.png"
 
 var ANIMATION_DURATION = 10000;
 
-var animationTimer = new AnimationTimer(ANIMATION_DURATION, AnimationTimer.prototype.makeEaseIn(2));
+var animationTimer = new AnimationTimer(ANIMATION_DURATION, AnimationTimer.prototype.makeEaseIn(1));
 
 
 // console.log(animationTimer);
@@ -48,15 +48,16 @@ var runnerCells = [
     moveLeftToRight = {
         lastMove: 0,
         execute: function (sprite, context, time) {
+            var elapsed = animationTimer.getElapsedTime()
             if (this.lastMove !== 0) {
-                sprite.left -= sprite.vX * ((time - this.lastMove) / 1000) ? sprite.vX * ((time - this.lastMove) / 1000) : 0;
+                sprite.left -= sprite.vX * ((elapsed - this.lastMove) / 1000) ? sprite.vX * ((time - this.lastMove) / 1000) : 0;
                 if (sprite.left < 0) {
                     sprite.left = canvas.width;
                 }
 
                 //    console.log(sprite.left);
             }
-            this.lastMove = time;
+            this.lastMove = elapsed;
         }
     }
 
@@ -75,14 +76,20 @@ function animate(time) {
 
     sprite.paint(context, sheetImg);
 
-    requestNextAnimationFrame(animate);
+
+    ANIMATION_ID =requestAnimationFrame(animate);
+
+
+    if(animationTimer.isOver()){
+        cancelAnimationFrame(ANIMATION_ID);
+    }
 }
 
 sheetImg.onload = function () {
     context.drawImage(sheetImg, 0, 0);
 }
 
-sprite.vX = 50;
+sprite.vX =2;
 sprite.top = 200;
 sprite.left = 100;
 
