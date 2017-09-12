@@ -2,37 +2,43 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-11 14:06:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-11 15:45:37
+ * @Last Modified time: 2017-09-12 14:01:09
  * 缓动效果 动画控制器 
  */
+
+function Stopwatch() {
+    this.startTime= 0;
+    this.running=false;
+    this.elapased=undefined;
+    this.elapasedTime=0;
+    this.DEFAULT_ELASTIC_PASSES=3;
+}
+
 Stopwatch.prototype = {
-    startTime:0,
-    running:fasle,
-    elapased: undefined,
-    elapasedTime: 0,
-    DEFAULT_ELASTIC_PASSES:3,
-    start:function(){
+    start: function () {
         this.startTime = +new Date();
         this.elapasedTime = undefined;
         this.running = true;
     },
 
-    stop:function(){
-        this.elapsed =(+new Date())-this.startTime;
+    stop: function () {
+        this.elapsed = (+new Date()) - this.startTime;
         this.running = false;
     },
 
-    getElapsedTime:function(){
-        if(this.running){
-            return (+new Date()) - this.startTime;
-        }else{
+    getElapsedTime: function () {
+        if (this.running) {
+            var _tem =(+new Date()) - this.startTime;
+            console.log((_tem>1)&&!isNaN(_tem));
+            return (_tem>1)&&!isNaN(_tem)?_tem:0;
+        } else {
             return this.elapsed;
         }
     },
-    isRunning:function(){
+    isRunning: function () {
         return this.running;
     },
-    reset: function(){
+    reset: function () {
         this.elapsed = 0;
     }
 }
@@ -44,49 +50,49 @@ var ANIMATION_DURATION = 1000;
 
 // animationTimer = new
 
-AnimationTimer = function(duration,timeWrap){
-  if(timeWrap!==undefined) this.timeWrap = timeWrap;
-  if(duration!==undefined) this.duration = duration;
-  
-  this.stopwatch = new Stopwatch();
+AnimationTimer = function (duration, timeWrap) {
+   this.timeWrap = timeWrap?timeWrap:null;
+    this.duration = duration?duration:1000;
+    this.stopwatch = new Stopwatch();
+   
 }
 
 AnimationTimer.prototype = {
-    start:function(){
+    start: function () {
         this.stopwatch.start();
     },
-    stop:function(){
+    stop: function () {
         this.stopwatch.stop();
     },
-    getElapsedTime:function(){
-        var elapasedTime = this.stopwatch.getElapsedTime(),
-        percentComplete = elapasedTime/this.duration;
+    getElapsedTime: function () {
+        var elapsedTime = this.stopwatch.getElapsedTime(),
+            percentComplete = elapsedTime / this.duration;
+  
+            console.log(percentComplete);
+        if (!this.stopwatch.running) return undefined;
+        if (this.timeWrap === undefined) return elapsedTime;
 
-        if(!this.stopwatch.running) return undefined;
-        if(this.timeWrap === undefined) return elapasedTime;
-
-        return elapasedTime*(this.timeWrap(percentComplete)/percentComplete);
+        /**
+         * here we calculate time distorted 
+         * the percent i come to 
+         */
+        return elapsedTime * (this.timeWrap(percentComplete) / percentComplete);
     },
-    isRunning:function(){
+    isRunning: function () {
         return this.stopwatch.running;
     },
-    idOver:function(){
+    idOver: function () {
         return this.stopwatch.getElapsedTime() > this.duration;
     },
-    /**
-     * 以下是缓动函数
-     */
-    makeEaseIn:function(strength){
-         return function(percentComplete){
-               return Math.pow(percentComplete,strength*2)
-         }
+    makeEaseIn: function (strength) {
+        return function (percentComplete) {
+            return Math.pow(percentComplete, strength * 2)
+        }
     },
-    makeEaseOut:function(){
-         return function(percentComplete){
-              return 1 - Math.pow(1 - percentComplete,strength*2);
-         }
+    makeEaseOut: function (strength) {
+        return function (percentComplete) {
+            return 1 - Math.pow(1 - percentComplete, strength * 2);
+        }
     }
-
-
 
 }

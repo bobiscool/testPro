@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-08 10:16:33 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-10 00:12:49
+ * @Last Modified time: 2017-09-12 13:33:08
  */
 
 /**
@@ -32,8 +32,8 @@ SpriteSheetPainter.prototype = {
     },
     paint: function (sprite, context, spriteSheet) {
         var cell = this.cells[this.cellIndex];
-        console.log(cell);
-        console.log(spriteSheet, cell.x, cell.y, cell.w, cell.h, sprite.left, sprite.top, cell.w, cell.h);
+        // console.log(cell);
+        // console.log(spriteSheet, cell.x, cell.y, cell.w, cell.h, sprite.left, sprite.top, cell.w, cell.h);
 
         context.drawImage(spriteSheet, cell.left, cell.top, cell.width, cell.height, sprite.left, sprite.top, cell.width, cell.height);
     }
