@@ -5,12 +5,12 @@ var canvas = document.getElementById('canvas'),
 
 sheetImg.src = "./js/sheet.png"
 
-var ANIMATION_DURATION = 1000;
+var ANIMATION_DURATION = 10000;
 
 var animationTimer = new AnimationTimer(ANIMATION_DURATION, AnimationTimer.prototype.makeEaseIn(7));
 
 
-console.log(animationTimer);
+// console.log(animationTimer);
 
 var runnerCells = [
     { left: 0, top: 0, width: 47, height: 64 },
@@ -29,10 +29,10 @@ var runnerCells = [
         PAGECLIP_INTERVAL: 10000,
         execute: function (sprite, context, time) {
             var elapsed = animationTimer.getElapsedTime();
-            console.log(elapsed);
+            // console.log(elapsed);
             if (this.lastAdvance == 0) {
                 this.lastAdvance = elapsed;
-            } else if (this.astAdvance != 0 && elapsed - this.lastAdvance>this.PAGECLIP_INTERVAL){
+            } else if (this.lastAdvance != 0 && elapsed - this.lastAdvance>this.PAGECLIP_INTERVAL){
                 sprite.painter.advance();
                 console.log('更新步伐');
                 this.lastAdvance = time;
