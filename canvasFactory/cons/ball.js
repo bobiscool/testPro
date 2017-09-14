@@ -35,6 +35,13 @@ Ball.prototype = {
         context.arc(this.x, this.y, 7, 0, Math.PI * 2);
         context.fill();
         context.restore();
+    },
+    drawLine:function(context){
+        //绘制函数线
+        var _temB = this.y - this.vY/this.vX*this.x;
+
+        context.save();
+        
     }
 
 }

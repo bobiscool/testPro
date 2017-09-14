@@ -10,14 +10,25 @@ function Ellipse(context, x, y, a, b) {
     context.fill();
 }
 
-function bucket(x, y) {
+function Bucket(x, y) {
     this.x = x;
     this.y = y;
 }
 
-bucket.prototype = {
-    paint:function(context){
-      Ellipse(context,this.x,this.y,3,5);
-      cntext.rect(x,y,10,20);
+Bucket.prototype = {
+    paint: function (context) {
+        Ellipse(context, this.x, this.y, 50, 30);
+        context.rect(this.x - 50, this.y + 10, 100, 200);
+        this.drawLine(context);
+        context.fill();
+    },
+    drawLine: function (context) {
+        context.save();
+        context.strokeStyle = "red";
+        context.beginPath();
+        context.moveTo(0,this.y);
+        context.lineTo(canvas.width,this.y);
+        context.stroke();
+        context.restore();
     }
 }
