@@ -1,4 +1,4 @@
-var G = 1;
+var G = 9.8;
 var fps = 10;
 var lastTime = new Date;
 
@@ -35,12 +35,22 @@ Ball.prototype = {
         context.arc(this.x, this.y, 7, 0, Math.PI * 2);
         context.fill();
         context.restore();
+        this.drawLine(context);
     },
     drawLine:function(context){
         //绘制函数线
         var _temB = this.y - this.vY/this.vX*this.x;
 
-        context.save();
+        
+          context.save();
+          context.beginPath();
+          context.strokeStyle = "green";
+          for(var i =0;i<canvas.width;i +=0.1){
+              context.lineTo(i,_temB+this.vY/this.vX*i);
+          }
+
+          context.stroke();
+          context.restore();
         
     }
 
