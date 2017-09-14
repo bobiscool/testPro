@@ -52,6 +52,10 @@ Ball.prototype = {
           context.stroke();
           context.restore();
         
-    }
+    },
+        getColissionElement:function(){
+            var _self = this;
+            return {x:_self.x,y:_self.y,k:_self.vY/this.vX,b:this.y - this.vY/this.vX*this.x}
+        }
 
 }

@@ -30,5 +30,10 @@ Bucket.prototype = {
         context.lineTo(canvas.width,this.y);
         context.stroke();
         context.restore();
-    }
+    },
+
+      getColissionElement:function(){
+            var _self = this;
+            return {x:_self.x,y:_self.y}
+        }
 }
