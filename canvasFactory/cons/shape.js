@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-15 15:29:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-18 11:19:52
+ * @Last Modified time: 2017-09-18 11:28:37
  * 形状对象 
  * 
  */
@@ -55,7 +55,19 @@ Shape.prototype = {
      context.save();
      context.fillStyle = this.fillStyle;
      this.createPath(context);
-     
+     context.fill();
+     context.restore();
+    },
+    stroke:function(conetxt){
+       context.save();
+       context.strokeStyle=this.strokeStyle;
+       this.createPath();
+       context.stroke();
+       context.restore();
+    },
+    isPointInPath:function(context,x,y){
+       this.createPath(context);
+       return context.isPointInPath(x,y);
     }
 
 }
