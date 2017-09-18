@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-15 15:29:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-18 11:14:33
+ * @Last Modified time: 2017-09-18 11:19:52
  * 形状对象 
  * 
  */
@@ -46,6 +46,16 @@ Shape.prototype = {
     },
     move:function(dx,dy){
 
+    },
+    // 以下是绘制 
+    createPath:function(){
+     
+    },
+    fill:function(context){
+     context.save();
+     context.fillStyle = this.fillStyle;
+     this.createPath(context);
+     
     }
 
 }
