@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 23:47:18
+ * @Last Modified time: 2017-09-19 23:50:27
  * calc.js
  * 用于计算的js库
  */
@@ -101,7 +101,7 @@ _Calc.prototype = {
                         let _tem2 = this.symbolStack.splice(_tem + 1);
                         // console.log('_tem2',_tem2);
                         this.numberStack = this.numberStack.concat(_tem2);
-                        // console.log('加成之后的 ',this.numberStack);
+                        console.log('加成之后的 ',this.numberStack);
                         return false;
                     }
 
