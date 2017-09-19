@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-15 10:07:55 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-15 15:18:56
+ * @Last Modified time: 2017-09-19 09:39:49
  * 向量对象
  */
 
@@ -39,6 +39,9 @@ Vector.prototype = {
     },
     crossProduct:function(){
       // 叉乘  
+    },
+    edge:function(vector){
+      return this.substract(vector);
     },
     perpendicular:function(){
     // 获取向量的垂直向量
