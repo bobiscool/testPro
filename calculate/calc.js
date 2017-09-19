@@ -2,16 +2,16 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 18:24:54
+ * @Last Modified time: 2017-09-19 23:16:15
  * calc.js
  * 用于计算的js库
  */
 
 var expExample = ['1', '+', '2', '+', "sin(", '3', ')']
 
-var b = "1+2+(4-5)/6"
+var b = "1+2+(4-5)/6+12*23+(9-8)/2"
 var k = b.split('');
-console.log(k);
+// console.log(k);
 
 var expRank = {
     ")": 0,
@@ -28,7 +28,7 @@ function Calc(exp) {
 
     _tem._genSubfix();
 
-    console.log(_tem.numberStack);
+    console.log('numberStack',_tem.numberStack);
 }
 
 
@@ -71,24 +71,24 @@ _Calc.prototype = {
     _genSubfix: function () {
         this.exp.forEach(function (item) {
 
-            console.log('item', item);
-            console.log('numberStack', this.numberStack);
+            // console.log('item', item);
+            // console.log('numberStack', this.numberStack);
             if (!isNaN(Number(item))) {
                 this.numberStack.push(item);
             } else {
                 if (this.symbolStack.length > 0) {
                     let oldSymbol = this.symbolStack[this.symbolStack.length - 1];
-                    console.log('oldSym', oldSymbol);
-                    console.log('oldSym---', item);
+                    // console.log('oldSym', oldSymbol);
+                    // console.log('oldSym---', item);
                     //外加一个限制 如果是 ( 那那就需要等)
                     if (item == ")" && this.bracketNum.length > 0) {
-                        console.log(this.bracketNum);
+                        // console.log(this.bracketNum);
                         let _tem = this.bracketNum.pop();
-                        console.log('_TEM',_tem);
+                        // console.log('_TEM',_tem);
                         let _tem2 = this.symbolStack.splice(_tem+1);
-                        console.log('_tem2',_tem2);
+                        // console.log('_tem2',_tem2);
                        this.numberStack = this.numberStack.concat(_tem2);
-                        console.log('加成之后的 ',this.numberStack);
+                        // console.log('加成之后的 ',this.numberStack);
                         return false;
                     }
 
@@ -104,27 +104,27 @@ _Calc.prototype = {
 
                     if (oldSymbol !== "(") {
                         if (expRank[item] < expRank[oldSymbol]) {
-                            console.log('弹入符号');
+                            // console.log('弹入符号');
                             this.symbolStack.push(item);
                         } else {
                             // 如果当前遇到的符号 优先级 小于 等于 前面的 那就直接 弹出栈
-                            console.log('弹出');
-                            console.log('原', this.symbolStack)
+                            // console.log('弹出');
+                            // console.log('原', this.symbolStack)
                             this.numberStack.push(this.symbolStack.pop());
                             this.symbolStack.push(item);
-                            console.log('后', this.symbolStack)
+                            // console.log('后', this.symbolStack)
 
                         }
                     }else {
                             this.symbolStack.push(item);     
-                            console.log('((((((', this.symbolStack)                                               
+                            // console.log('((((((', this.symbolStack)                                               
                     }
 
                 } else {
 
                     this.symbolStack.push(item);
 
-                    console.log('symbolStack', this.symbolStack);
+                    // console.log('symbolStack', this.symbolStack);
                     if (item == "(") {
                         this.bracketNum.push(this.symbolStack.length - 1);
                     }
