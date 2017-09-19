@@ -2,16 +2,16 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 00:02:35
+ * @Last Modified time: 2017-09-20 00:38:03
  * calc.js
  * 用于计算的js库
  */
 
 var expExample = ['1', '+', '2', '+', "sin(", '3', ')']
 
-var b = "1+2+(4-5)/6+12*23+(9-8)/2"
+var b = "1+2+(4-5)/6"
 var k = b.split('');
-// console.log(k);
+console.log('k',k);
 
 
 
@@ -32,6 +32,7 @@ function Calc(exp) {
 
     _tem._calculate();
     console.log('numberStack', _tem.calcStack);
+    console.log('symbolStack', _tem.symbolStack);
 }
 
 
@@ -104,11 +105,16 @@ _Calc.prototype = {
                         // console.log(this.bracketNum);
                         let _tem = this.bracketNum.pop();
                         // console.log('_TEM',_tem);
+                        console.log('这个时候1',this.symbolStack);
+                        
                         let _tem2 = this.symbolStack.splice(_tem);
-                        // console.log('_tem2',_tem2);
-                        _tem2.unshift();//拿掉 (
-                       console.log(_tem2);     
+                        console.log('_tem2',_tem2);
+                        _tem2.shift();
+                    //    this.symbolStack.pop();//拿掉 (
+                        console.log('这个时候',this.symbolStack);
                         this.numberStack = this.numberStack.concat(_tem2);
+                        console.log("找到右边括号后",this.numberStack );
+                        console.log("找到右边括号后",this.symbolStack );
                         return false;
                     }
 
@@ -140,13 +146,12 @@ _Calc.prototype = {
                         // console.log('((((((', this.symbolStack)                                               
                     }
 
+
+                    
+
                 } else {
 
                     this.symbolStack.push(item);
-                    /**
-                     * 1 +
-                     * 4 +
-                     */
 
                     // console.log('symbolStack', this.symbolStack);
                     if (item == "(") {
@@ -156,6 +161,9 @@ _Calc.prototype = {
 
             }
         }, this);
+
+
+       this.numberStack=this.numberStack.concat(this.symbolStack.reverse());
     }
 }
 
