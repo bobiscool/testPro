@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 15:41:43
+ * @Last Modified time: 2017-09-19 16:22:34
  * calc.js
  * 用于计算的js库
  */
@@ -51,6 +51,27 @@ _Calc.prototype = {
         }, this);
     },
     _genSubfix:function(){
-        
+         this.exp.forEach(function(item) {
+            
+            if(!isNaN(Number(item))){
+               this.numberStack.push(item); 
+            }else{
+                if(this.symbolStack.length>0){
+                    let oldSymbol =  this.symbolStack[this.symbolStack.length-1];
+                    // 如果当前遇到的符号 优先级 大于 前面的 那就直接 压入栈
+
+                    if(expRank[item]>expRank[oldSymbol]){
+                        this.symbolStack.push(item);
+                    }else{
+                                 // 如果当前遇到的符号 优先级 小于 等于 前面的 那就直接 弹出栈
+
+                                 
+                    }
+                }
+                this.symbolStack[this.symbolStack.length-1]
+
+               this.symbolStack.push(item);
+            }
+        }, this);
     }
 }
