@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 23:33:05
+ * @Last Modified time: 2017-09-19 23:38:01
  * calc.js
  * 用于计算的js库
  */
@@ -29,7 +29,8 @@ function Calc(exp) {
 
     _tem._genSubfix();
 
-    console.log('numberStack', _tem.numberStack);
+    _tem._calculate();
+    console.log('numberStack', _tem.calcStack);
 }
 
 
@@ -55,23 +56,24 @@ _Calc.prototype = {
 
     },
     _calculate: function () {
+        console.log(this.numberStack);
         this.numberStack.forEach(function (item) {
 
             if (!isNaN(Number(item))) {
                 this.calcStack.push(item);
             } else {
                 //是符号的时候
-                let _temArray = this.calcStack.split(this.calcStack.length - 3);//拿到数字堆栈 最后两数
+                let _temArray = this.calcStack.splice(this.calcStack.length - 3);//拿到数字堆栈 最后两数
+                  console.log(_temArray);
+                var _temNum = _Math[item](_temArray[0],_temArray[1]);
 
-                // var _temNum = 
-
-
+                this.calcStack.push(_temNum);
             }
 
 
 
 
-        });
+        },this);
     },
     _genSubfix: function () {
         this.exp.forEach(function (item) {
