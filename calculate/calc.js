@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 16:28:32
+ * @Last Modified time: 2017-09-19 16:32:15
  * calc.js
  * 用于计算的js库
  */
@@ -23,7 +23,7 @@ function Calc(exp){
 
   _tem._genSubfix();
 
-  console.log(_tem.symbolStack);
+  console.log(_tem.numberStack);
 }
 
 
@@ -32,7 +32,7 @@ function _Calc(exp){
  // Calc 随身携带的包
    this.exp = exp;
    // 由于有 sin cos 这些特殊的函数 我建议 传入的exp 最好不要是字符串 就是一个数组
-   this.expList = exp.split('');
+//    this.expList = exp.split('');
    this.symbolStack = [];
    //左右两边的栈
    this.numberStack = [];
@@ -63,13 +63,15 @@ _Calc.prototype = {
                 if(this.symbolStack.length>0){
                     let oldSymbol =  this.symbolStack[this.symbolStack.length-1];
                     // 如果当前遇到的符号 优先级 大于 前面的 那就直接 压入栈
-
+    
                     if(expRank[item]>expRank[oldSymbol]){
                         this.symbolStack.push(item);
                     }else{
                                  // 如果当前遇到的符号 优先级 小于 等于 前面的 那就直接 弹出栈
                         this.numberStack.push(this.symbolStack.pop())
                     }
+                }else{
+                        this.symbolStack.push(item);                    
                 }
 
             }
