@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 17:44:42
+ * @Last Modified time: 2017-09-19 18:07:15
  * calc.js
  * 用于计算的js库
  */
@@ -92,14 +92,15 @@ _Calc.prototype = {
 
                     // 如果当前遇到的符号 优先级 大于 前面的 那就直接 压入栈
 
-                    if (expRank[item] > expRank[oldSymbol]) {
+                    if (expRank[item] < expRank[oldSymbol]) {
                         console.log('弹入符号');
                         this.symbolStack.push(item);
                     } else {
                         // 如果当前遇到的符号 优先级 小于 等于 前面的 那就直接 弹出栈
                         console.log('弹出');
                         console.log('原',this.symbolStack)
-                        this.numberStack.push(item);
+                        this.numberStack.push(this.symbolStack.pop());
+                        this.symbolStack.push(item);
                         console.log('后',this.symbolStack)                        
                         
                     }
