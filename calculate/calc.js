@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 17:03:01
+ * @Last Modified time: 2017-09-19 17:44:42
  * calc.js
  * 用于计算的js库
  */
@@ -71,14 +71,18 @@ _Calc.prototype = {
     _genSubfix: function () {
         this.exp.forEach(function (item) {
 
+            console.log('item',item);
+            console.log('numberStack',this.numberStack);
             if (!isNaN(Number(item))) {
                 this.numberStack.push(item);
             } else {
                 if (this.symbolStack.length > 0) {
                     let oldSymbol = this.symbolStack[this.symbolStack.length - 1];
-
+                    console.log('oldSym',oldSymbol);
+                    console.log('oldSym---',item);
                     //外加一个限制 如果是 ( 那那就需要等)
                     if (item == ")"&&this.bracketNum.length>0) {
+                       console.log(this.bracketNum);                        
                        let _tem = this.bracketNum.pop();
                        console.log(_tem);
                         this.numberStack.concat(this.symbolStack.splice(_tem));
@@ -89,15 +93,21 @@ _Calc.prototype = {
                     // 如果当前遇到的符号 优先级 大于 前面的 那就直接 压入栈
 
                     if (expRank[item] > expRank[oldSymbol]) {
+                        console.log('弹入符号');
                         this.symbolStack.push(item);
                     } else {
                         // 如果当前遇到的符号 优先级 小于 等于 前面的 那就直接 弹出栈
-                        this.numberStack.push(this.symbolStack.pop())
+                        console.log('弹出');
+                        console.log('原',this.symbolStack)
+                        this.numberStack.push(item);
+                        console.log('后',this.symbolStack)                        
+                        
                     }
                 } else {
 
                     this.symbolStack.push(item);
-                    console.log(this.symbolStack);
+                
+                   console.log('symbolStack',this.symbolStack);
                     if (item == "(") {
                       this.bracketNum.push(this.symbolStack.length-1);
                     }
