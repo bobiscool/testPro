@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 23:16:15
+ * @Last Modified time: 2017-09-19 23:33:05
  * calc.js
  * 用于计算的js库
  */
@@ -13,13 +13,14 @@ var b = "1+2+(4-5)/6+12*23+(9-8)/2"
 var k = b.split('');
 // console.log(k);
 
+
+
 var expRank = {
     ")": 0,
     "/": 1,
     "*": 1,
     "+": 2,
-    "-": 2,
-
+    "-": 2
 }
 
 
@@ -28,7 +29,7 @@ function Calc(exp) {
 
     _tem._genSubfix();
 
-    console.log('numberStack',_tem.numberStack);
+    console.log('numberStack', _tem.numberStack);
 }
 
 
@@ -60,6 +61,10 @@ _Calc.prototype = {
                 this.calcStack.push(item);
             } else {
                 //是符号的时候
+                let _temArray = this.calcStack.split(this.calcStack.length - 3);//拿到数字堆栈 最后两数
+
+                // var _temNum = 
+
 
             }
 
@@ -85,9 +90,9 @@ _Calc.prototype = {
                         // console.log(this.bracketNum);
                         let _tem = this.bracketNum.pop();
                         // console.log('_TEM',_tem);
-                        let _tem2 = this.symbolStack.splice(_tem+1);
+                        let _tem2 = this.symbolStack.splice(_tem + 1);
                         // console.log('_tem2',_tem2);
-                       this.numberStack = this.numberStack.concat(_tem2);
+                        this.numberStack = this.numberStack.concat(_tem2);
                         // console.log('加成之后的 ',this.numberStack);
                         return false;
                     }
@@ -115,9 +120,9 @@ _Calc.prototype = {
                             // console.log('后', this.symbolStack)
 
                         }
-                    }else {
-                            this.symbolStack.push(item);     
-                            // console.log('((((((', this.symbolStack)                                               
+                    } else {
+                        this.symbolStack.push(item);
+                        // console.log('((((((', this.symbolStack)                                               
                     }
 
                 } else {
@@ -134,6 +139,23 @@ _Calc.prototype = {
         }, this);
     }
 }
+
+
+var _Math = {
+    "+":function(a, b) {
+        return a + b;
+    },
+    "-":function(a, b) {
+        return a - b;
+    },
+    "*":function(a, b) {
+        return a * b;
+    },
+    "/":function(a, b) {
+        return a / b;
+    }
+}
+
 
 
 Calc(k);
