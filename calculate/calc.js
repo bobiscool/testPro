@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 23:50:27
+ * @Last Modified time: 2017-09-20 00:00:53
  * calc.js
  * 用于计算的js库
  */
@@ -88,20 +88,26 @@ _Calc.prototype = {
             // console.log('numberStack', this.numberStack);
             if (!isNaN(Number(item))) {
                 this.numberStack.push(item);
+                /**
+                 * 0 1
+                 * 3 2
+                 */
             } else {
                 if (this.symbolStack.length > 0) {
-                    let oldSymbol = this.symbolStack[this.symbolStack.length - 1];
+                    // 我就必须做判断
+
+                    let oldSymbol = this.symbolStack[this.symbolStack.length - 1];//拿到老的
                     // console.log('oldSym', oldSymbol);
-                    // console.log('oldSym---', item);
+                    console.log('bracketNum', this.bracketNum.length);
                     //外加一个限制 如果是 ( 那那就需要等)
                     if (item == ")" && this.bracketNum.length > 0) {
                         // console.log(this.bracketNum);
                         let _tem = this.bracketNum.pop();
                         // console.log('_TEM',_tem);
-                        let _tem2 = this.symbolStack.splice(_tem + 1);
+                        let _tem2 = this.symbolStack.splice(_tem);
                         // console.log('_tem2',_tem2);
+                        _tem2.unshift();//拿掉 (
                         this.numberStack = this.numberStack.concat(_tem2);
-                        console.log('加成之后的 ',this.numberStack);
                         return false;
                     }
 
@@ -121,11 +127,11 @@ _Calc.prototype = {
                             this.symbolStack.push(item);
                         } else {
                             // 如果当前遇到的符号 优先级 小于 等于 前面的 那就直接 弹出栈
-                            // console.log('弹出');
-                            // console.log('原', this.symbolStack)
+                            console.log('弹出');
+                            console.log('原', this.symbolStack)
                             this.numberStack.push(this.symbolStack.pop());
                             this.symbolStack.push(item);
-                            // console.log('后', this.symbolStack)
+                            console.log('后', this.symbolStack)
 
                         }
                     } else {
@@ -136,6 +142,10 @@ _Calc.prototype = {
                 } else {
 
                     this.symbolStack.push(item);
+                    /**
+                     * 1 +
+                     * 4 +
+                     */
 
                     // console.log('symbolStack', this.symbolStack);
                     if (item == "(") {
