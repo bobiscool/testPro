@@ -2,14 +2,14 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 00:38:03
+ * @Last Modified time: 2017-09-20 00:38:40
  * calc.js
  * 用于计算的js库
  */
 
 var expExample = ['1', '+', '2', '+', "sin(", '3', ')']
 
-var b = "1+2+(4-5)/6"
+var b = "1+2+(4-5)/6+10+(9-7)/2*3"
 var k = b.split('');
 console.log('k',k);
 
