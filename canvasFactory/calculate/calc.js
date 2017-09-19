@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 15:08:48
+ * @Last Modified time: 2017-09-19 15:41:43
  * calc.js
  * 用于计算的js库
  */
@@ -29,9 +29,9 @@ function _Calc(exp){
    this.exp = exp;
    // 由于有 sin cos 这些特殊的函数 我建议 传入的exp 最好不要是字符串 就是一个数组
    this.expList = exp.split('');
-   this.rightStack = [];
+   this.symbolStack = [];
    //左右两边的栈
-   this.leftStack = [];
+   this.numberStack = [];
 }
 
 
@@ -41,7 +41,16 @@ _Calc.prototype = {
         
     },
     _calculate:function(){
-        this
+        this.exp.forEach(function(item) {
+            
+            if(!isNaN(Number(item))){
+               this.numberStack.push(item); 
+            }else{
+               this.symbolStack.push(item);
+            }
+        }, this);
+    },
+    _genSubfix:function(){
+        
     }
-
 }
