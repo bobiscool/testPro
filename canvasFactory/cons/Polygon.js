@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-18 11:30:20 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-19 09:42:33
+ * @Last Modified time: 2017-09-19 09:53:40
  * 多边形对象
  */
 
@@ -40,3 +40,17 @@ Polygon.prototype.getAxes = function () {
 
 }
 
+Polygon.prototype.project = function(axis){
+    var scalars = [],//标量
+        v = new Vectors();
+
+        this.points.forEach(function(point){
+            v.x = point.x;
+            v.y = point.y;
+            
+            scalars.push(v.dotProduct(axis));
+            
+        });
+        
+        return new Projection(Math.min.apply(Math,scalars),Math.max.apply(Math,scalars))
+}
