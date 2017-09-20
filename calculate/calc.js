@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 22:59:27
+ * @Last Modified time: 2017-09-20 23:03:05
  * calc.js
  * 用于计算的js库
  * 
@@ -309,6 +309,14 @@ _Phase.prototype = {
     _genComp: function () {
         this._next();
         if (!isNaN(Number(this._c))) {
+
+            if(this._sym2){
+                //如果是 true 说明 前面存在一个符号
+                this.expA.push(this._comment);
+                this._comment = "";
+                this._sym2 = false;              
+            }
+        
             this._comment = this._comment + '' + this._c;
             this._genComp();
         } else {
@@ -328,7 +336,6 @@ _Phase.prototype = {
 
             if(this._sym2){
                 this._comment = this._comment + this._c;
-
             }
 
 
