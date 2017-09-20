@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 13:34:28
+ * @Last Modified time: 2017-09-20 13:39:10
  * calc.js
  * 用于计算的js库
  */
@@ -183,6 +183,17 @@ _Calc.prototype = {
 
     }
 }
+
+
+var _getMu = {// 参与运算的运算因子 数目
+    "+":2,
+    "-":2,
+    "*":2,
+    "/":2,
+    "sin":1,
+    "cos":1,
+}
+
 
 
 var _Math = {
