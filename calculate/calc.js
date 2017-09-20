@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 17:04:09
+ * @Last Modified time: 2017-09-20 17:17:32
  * calc.js
  * 用于计算的js库
  * 
@@ -11,6 +11,7 @@
  */
 
 var expExample = ['3', '+', '2', '-', '5', '/', '5', '+', 'sin(', '50', "-", "5", ')']
+var expExample = ['3', '^', '2', '-', '5', '/', '5', '+', 'sin(', '50', "-", "5", ')']
 var expExample2 = ["1", "+", 'sin(', '50', "-", "5", "+", "60", "/", "(", '2', '-', '5', ")", ')']
 
 console.log(expExample2.join(''));
@@ -219,6 +220,7 @@ _Calc.prototype = {
 
 
 var _getMu = {// 参与运算的运算因子 数目
+    "^":2,
     "+": 2,
     "-": 2,
     "*": 2,
@@ -248,6 +250,9 @@ var _Math = { // 具体的算术运算符
     },
     "/": function (a) {
         return Number(a[0]) / Number(a[1]);
+    },
+    "^":function(a){
+      return Math.pow(Number(a[0]),Number(a[1]));
     },
     "sin": function (a) {
         console.log("计算sin", a)
