@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 13:56:39
+ * @Last Modified time: 2017-09-20 13:59:24
  * calc.js
  * 用于计算的js库
  */
@@ -73,7 +73,7 @@ _Calc.prototype = {
                 // _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
                 console.log('----', this.calcStack);
                 console.log('----', this.calcStack);
-                var _temNum = _Math[item](_temArray[0], _temArray[1]);
+                var _temNum = _Math[item](_temArray);
                 console.log('-------------', this.calcStack);
 
 
@@ -179,7 +179,7 @@ _Calc.prototype = {
 
         if (item == "sin(") {
             this.numberStack.push('sin');//先放入
-            this.symbolStack.push('(');
+            this.symbolStack.push('(');
             this.bracketNum.push(this.symbolStack.length - 1);//记录下位置
         }
 
@@ -187,7 +187,7 @@ _Calc.prototype = {
 }
 
 
-var _getMu = {// 参与运算的运算因子 数目
+var  _getMu = {// 参与运算的运算因子 数目
     "+":2,
     "-":2,
     "*":2,
@@ -199,17 +199,17 @@ var _getMu = {// 参与运算的运算因子 数目
 
 
 var _Math = {
-    "+": function (a, b) {
-        return Number(a) + Number(b);
+    "+": function (a) {
+        return Number(a[0]) + Number(a[1]);
     },
-    "-": function (a, b) {
-        return Number(a) - Number(b);
+    "-": function (a) {
+        return Number(a[0]) - Number(a[1]);
     },
-    "*": function (a, b) {
-        return Number(a) * Number(b);
+    "*": function (a) {
+        return Number(a[0]) * Number(a[1]);
     },
-    "/": function (a, b) {
-        return Number(a) / Number(b);
+    "/": function (a) {
+        return Number(a[0]) / Number(a[1]);
     }
 }
 
