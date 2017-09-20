@@ -2,9 +2,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 15:07:36
+ * @Last Modified time: 2017-09-20 15:32:28
  * calc.js
  * 用于计算的js库
+ * 
+ * based on Shunting-yard_algorithm
+ * https://en.wikipedia.org/wiki/Shunting-yard_algorithm
  */
 
 var expExample = ['3', '+', '2', '-', '5', '/', '5', '+', 'sin(' , '50' , ')']
