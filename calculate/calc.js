@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 16:47:43
+ * @Last Modified time: 2017-09-20 16:55:12
  * calc.js
  * 用于计算的js库
  * 
@@ -11,7 +11,7 @@
  */
 
 var expExample = ['3', '+', '2', '-', '5', '/', '5', '+', 'sin(', '50', "-", "5", ')']
-var expExample2 = ['sin(', '50', "-", "5", "+", "60", "/", "(", '2', '-', '5', ")", ')']
+var expExample2 = ["1","+",'sin(', '50', "-", "5", "+", "60", "/", "(", '2', '-', '5', ")", ')']
 
 console.log(expExample2.join(''));
 
@@ -268,4 +268,4 @@ var _Short = {
 
 
 
-Calc(expExample2);
+Calc(expExample);
