@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-21 00:00:50
+ * @Last Modified time: 2017-09-21 00:01:43
  * calc.js
  * 用于计算的js库
  * 
@@ -352,7 +352,9 @@ _Phase.prototype = {
             } else {
                 console.log('终止')
 
+                if(this._comment){
                 this.expA.push(this._comment);
+                }
                 return false;
             }
         }
@@ -378,7 +380,7 @@ var _Short = {
 
 
 
-var T = new _Phase('13+sin(2)-5/5/5^6');
+var T = new _Phase('13+sin(2)-cos(5/5/5^6)');
 T._parse();
 console.log(T.expA);
 
