@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 18:46:52
+ * @Last Modified time: 2017-09-20 22:59:27
  * calc.js
  * 用于计算的js库
  * 
@@ -30,6 +30,19 @@ var expRank = {
     "*": 6,
     "+": 5,
     "-": 5,
+}
+
+var whetherHas = {
+    "^": 1,
+    "/": 1,
+    "*": 1,
+    "+": 1,
+    "-": 1,
+    "a": 2,
+    "s": 2,
+    "c": 2,
+    "t": 2,
+    "m": 2,
 }
 
 
@@ -275,35 +288,57 @@ var _Phase = function (expr) {
     this._c = "";
     this._comment = "";
     this.expA = [];
+    this._sym2 = false;
 }
 
 _Phase.prototype = {
     _parse: function () {
         this._c = this.expr[0];
-        if (!isNaN(Number(this._c))){
+        if (!isNaN(Number(this._c))) {
             //是一个数字 那就继续看看还是不是数组
-            this._comment=this._c;
-            
+            this._comment = this._c;
+
             this._genComp();
         }
 
     },
     _next: function () {
-      this._index++;  
-      this._c = this.expr[this._index];
+        this._index++;
+        this._c = this.expr[this._index];
     },
-    _genComp:function(){
-       this._next();
-       if (!isNaN(Number(this._c))){
-            this._comment=this._comment+''+this._c;
+    _genComp: function () {
+        this._next();
+        if (!isNaN(Number(this._c))) {
+            this._comment = this._comment + '' + this._c;
             this._genComp();
-        }else {
-            this.expA.push(this._comment);
-            this.expA.push(this._c);
-            this._comment = "";
-            if(this._index<(this.expr.length-1)){
-            this._genComp();            
-            }else{
+        } else {
+            // 如果是 符号 
+            if (whetherHas[this._c] == 1&&!this._sym2) {
+                // 如果是 第一种 符号  并且不是在第二种搜集模式里面
+                this.expA.push(this._comment);
+                this.expA.push(this._c);
+                this._comment = "";
+            }
+
+
+            if(whetherHas[this._c] == 2&&!this._sym2){
+                //如果是第二种符号 那就得 开启 第二种符号 收集模式
+                this._sym2 = true;// 开启搜集模式
+            }
+
+            if(this._sym2){
+                this._comment = this._comment + this._c;
+
+            }
+
+
+
+
+
+
+            if (this._index < (this.expr.length - 1)) {
+                this._genComp();
+            } else {
                 return false;
             }
         }
