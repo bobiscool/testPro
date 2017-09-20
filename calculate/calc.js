@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 23:48:46
+ * @Last Modified time: 2017-09-21 00:00:27
  * calc.js
  * 用于计算的js库
  * 
@@ -34,6 +34,7 @@ var expRank = {
 
 var whetherHas = {
     "^": 1,
+    ")": 1,
     "/": 1,
     "*": 1,
     "+": 1,
@@ -309,32 +310,35 @@ _Phase.prototype = {
     _genComp: function () {
         this._next();
         if (!isNaN(Number(this._c))) {
-
-            if(this._sym2){
+            console.log('数字', this._c)
+            if (this._sym2) {
                 //如果是 true 说明 前面存在一个符号
                 this.expA.push(this._comment);
                 this._comment = "";
-                this._sym2 = false;              
+                this._sym2 = false;
             }
-        
-            this._comment = this._comment + '' + this._c;
+
+            this._comment = this._comment + this._c;
             this._genComp();
         } else {
             // 如果是 符号 
-            if (whetherHas[this._c] == 1&&!this._sym2) {
+            if (whetherHas[this._c] == 1 && !this._sym2) {
                 // 如果是 第一种 符号  并且不是在第二种搜集模式里面
-                this.expA.push(this._comment);
+                if(this._comment){
+                this.expA.push(this._comment);//右括号 与其他双目符号相遇
+                }                
                 this.expA.push(this._c);
                 this._comment = "";
             }
 
 
-            if(whetherHas[this._c] == 2&&!this._sym2){
+            if (whetherHas[this._c] == 2 && !this._sym2) {
                 //如果是第二种符号 那就得 开启 第二种符号 收集模式
                 this._sym2 = true;// 开启搜集模式
             }
 
-            if(this._sym2){
+            if (this._sym2) {
+                console.log('符号模式', this._c);
                 this._comment = this._comment + this._c;
             }
 
@@ -346,6 +350,9 @@ _Phase.prototype = {
             if (this._index < (this.expr.length - 1)) {
                 this._genComp();
             } else {
+                console.log('终止')
+
+                this.expA.push(this._comment);
                 return false;
             }
         }
