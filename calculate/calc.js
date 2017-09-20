@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 16:55:12
+ * @Last Modified time: 2017-09-20 16:59:14
  * calc.js
  * 用于计算的js库
  * 
@@ -11,7 +11,7 @@
  */
 
 var expExample = ['3', '+', '2', '-', '5', '/', '5', '+', 'sin(', '50', "-", "5", ')']
-var expExample2 = ["1","+",'sin(', '50', "-", "5", "+", "60", "/", "(", '2', '-', '5', ")", ')']
+var expExample2 = ["1", "+", 'sin(', '50', "-", "5", "+", "60", "/", "(", '2', '-', '5', ")", ')']
 
 console.log(expExample2.join(''));
 
@@ -225,6 +225,13 @@ var _getMu = {// 参与运算的运算因子 数目
     "/": 2,
     "sin": 1,
     "cos": 1,
+    "sin":1,
+    "max":2,
+    "cos":1,
+    "tan":1,
+    "arcsin":1,
+    "arccos":1,
+    "arctan":1,
 }
 
 
@@ -257,7 +264,12 @@ var _Phase = function () {
 
 var _Short = {
     "sin(": "sin",
-    "max(": "max"
+    "max(": "max",
+    "cos(": "cos",
+    "tan(": "tan",
+    "arcsin(": "arcsin",
+    "arccos(": "arccos",
+    "arctan(": "arctan",
 }
 
 
