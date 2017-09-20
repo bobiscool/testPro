@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 17:41:57
+ * @Last Modified time: 2017-09-20 18:32:37
  * calc.js
  * 用于计算的js库
  * 
@@ -13,7 +13,7 @@
 var expExample = ['3', '+', '2', '-', '5', '/', '5', '+', 'sin(', '50', "-", "5", ')']
 var expExample = ['3', '^', '2', '-', '5', '/', '5', '+', 'sin(', '50', "-", "5", ')']
 var expExample2 = ["1", "+", 'sin(', '50', "-", "5", "+", "60", "/", "(", '2', '-', '5', ")", ')']
-var expExample3 = ["tan(","1",")", "+", 'sin(', '50', "-","cos(", "5",")", "+", "60", "/", "(", '2', '-', '5', ")", ')']
+var expExample3 = ["tan(", "1", ")", "+", 'sin(', '50', "-", "cos(", "5", ")", "+", "60", "/", "(", '2', '-', '5', ")", ')']
 
 console.log(expExample3.join(''));
 
@@ -266,10 +266,28 @@ var _Math = { // 具体的算术运算符
     }
 }
 
-var _Phase = function () {
+var _Phase = function (expr) {
     /**
      * 解析算式用的函数
      */
+    this.expr = expr;
+    this._index = 0;
+    this._c = "";
+    this._comment = "";
+}
+
+_Phase.prototype = {
+    _parse: function () {
+        this._c = this.expr[0];
+        if (!isNaN(Number(this._c))){
+            
+        }
+
+    },
+    _next: function () {
+      this._index++;  
+      this._c = this.expr[this._index];
+    }
 }
 
 
@@ -282,6 +300,8 @@ var _Short = {
     "arccos(": "arccos",
     "arctan(": "arctan",
 }
+
+
 
 
 
