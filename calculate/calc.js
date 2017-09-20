@@ -2,14 +2,14 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 10:07:13
+ * @Last Modified time: 2017-09-20 10:30:12
  * calc.js
  * 用于计算的js库
  */
 
 var expExample = ['1', '+', '2', '+', "sin(", '3', ')']
 
-var b = "1+(2+6)/6*7-(4+5)/6"
+var b = "(4+5)/6*9*4"
 var c = "1-(9-7)/2"
 var k = b.split('');
 console.log('k',k);
@@ -182,6 +182,17 @@ var _Math = {
         return Number(a) / Number(b);
     }
 }
+
+var _Phase = function(){
+    /**
+     * 解析算式用的函数
+     */
+}
+
+
+
+
+
 
 
 
