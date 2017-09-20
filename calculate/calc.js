@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 23:03:05
+ * @Last Modified time: 2017-09-20 23:48:46
  * calc.js
  * 用于计算的js库
  * 
@@ -371,7 +371,7 @@ var _Short = {
 
 
 
-var T = new _Phase('13+2-5/5');
+var T = new _Phase('13+sin(2)-5/5');
 T._parse();
 console.log(T.expA);
 
