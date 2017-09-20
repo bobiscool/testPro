@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 17:17:32
+ * @Last Modified time: 2017-09-20 17:41:57
  * calc.js
  * 用于计算的js库
  * 
@@ -13,8 +13,9 @@
 var expExample = ['3', '+', '2', '-', '5', '/', '5', '+', 'sin(', '50', "-", "5", ')']
 var expExample = ['3', '^', '2', '-', '5', '/', '5', '+', 'sin(', '50', "-", "5", ')']
 var expExample2 = ["1", "+", 'sin(', '50', "-", "5", "+", "60", "/", "(", '2', '-', '5', ")", ')']
+var expExample3 = ["tan(","1",")", "+", 'sin(', '50', "-","cos(", "5",")", "+", "60", "/", "(", '2', '-', '5', ")", ')']
 
-console.log(expExample2.join(''));
+console.log(expExample3.join(''));
 
 var b = "3+2-5/5"
 var c = "1-(9-7)/2"
@@ -39,8 +40,7 @@ function Calc(exp) {
     console.log('numberStack', _tem.numberStack);
 
     _tem._calculate();
-    console.log('calcStack', _tem.calcStack);
-
+    return _tem.calcStack[0];
 }
 
 
@@ -80,6 +80,7 @@ _Calc.prototype = {
                 // _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
                 console.log('----', this.calcStack);
                 console.log('----', this.calcStack);
+                console.log(item);
                 var _temNum = _Math[item](_temArray);
                 console.log('-------------', this.calcStack);
 
@@ -220,7 +221,7 @@ _Calc.prototype = {
 
 
 var _getMu = {// 参与运算的运算因子 数目
-    "^":2,
+    "^": 2,
     "+": 2,
     "-": 2,
     "*": 2,
@@ -251,12 +252,17 @@ var _Math = { // 具体的算术运算符
     "/": function (a) {
         return Number(a[0]) / Number(a[1]);
     },
-    "^":function(a){
-      return Math.pow(Number(a[0]),Number(a[1]));
+    "^": function (a) {
+        return Math.pow(Number(a[0]), Number(a[1]));
     },
     "sin": function (a) {
-        console.log("计算sin", a)
         return Math.sin(Number(a[0]));
+    },
+    "cos": function (a) {
+        return Math.cos(Number(a[0]));
+    },
+    "tan": function (a) {
+        return Math.tan(Number(a[0]));
     }
 }
 
@@ -285,4 +291,4 @@ var _Short = {
 
 
 
-Calc(expExample);
+console.log(Calc(expExample3));
