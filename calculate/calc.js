@@ -2,14 +2,15 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 00:38:40
+ * @Last Modified time: 2017-09-20 10:07:13
  * calc.js
  * 用于计算的js库
  */
 
 var expExample = ['1', '+', '2', '+', "sin(", '3', ')']
 
-var b = "1+2+(4-5)/6+10+(9-7)/2*3"
+var b = "1+(2+6)/6*7-(4+5)/6"
+var c = "1-(9-7)/2"
 var k = b.split('');
 console.log('k',k);
 
@@ -31,8 +32,8 @@ function Calc(exp) {
     console.log('numberStack', _tem.numberStack);
 
     _tem._calculate();
-    console.log('numberStack', _tem.calcStack);
-    console.log('symbolStack', _tem.symbolStack);
+    console.log('calcStack', _tem.calcStack);
+
 }
 
 
@@ -122,7 +123,6 @@ _Calc.prototype = {
                     if (item == "(") {
                         this.symbolStack.push(item);
                         this.bracketNum.push(this.symbolStack.length - 1);
-
                         return false;
                     }
 
