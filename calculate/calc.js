@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 16:59:14
+ * @Last Modified time: 2017-09-20 17:04:09
  * calc.js
  * 用于计算的js库
  * 
@@ -23,11 +23,11 @@ console.log('k', k);
 
 
 var expRank = {
-    ")": 0,
-    "/": 1,
-    "*": 1,
-    "+": 2,
-    "-": 2
+    "^": 7,
+    "/": 6,
+    "*": 6,
+    "+": 5,
+    "-": 5,
 }
 
 
@@ -150,7 +150,7 @@ _Calc.prototype = {
                     // 如果当前遇到的符号 优先级 大于 前面的 那就直接 压入栈
 
                     if (oldSymbol !== "(" && oldSymbol !== "sin") {
-                        if (expRank[item] < expRank[oldSymbol]) {
+                        if (expRank[item] > expRank[oldSymbol]) {
                             // console.log('弹入符号');
                             this.symbolStack.push(item);
                         } else {
@@ -225,13 +225,13 @@ var _getMu = {// 参与运算的运算因子 数目
     "/": 2,
     "sin": 1,
     "cos": 1,
-    "sin":1,
-    "max":2,
-    "cos":1,
-    "tan":1,
-    "arcsin":1,
-    "arccos":1,
-    "arctan":1,
+    "sin": 1,
+    "max": 2,
+    "cos": 1,
+    "tan": 1,
+    "arcsin": 1,
+    "arccos": 1,
+    "arctan": 1,
 }
 
 
