@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 13:59:24
+ * @Last Modified time: 2017-09-20 14:01:48
  * calc.js
  * 用于计算的js库
  */
@@ -210,6 +210,9 @@ var _Math = {
     },
     "/": function (a) {
         return Number(a[0]) / Number(a[1]);
+    },
+    "sin": function(a){
+       return Math.sin(Number(a[0]));
     }
 }
 
