@@ -2,17 +2,17 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 11:01:36
+ * @Last Modified time: 2017-09-20 13:34:28
  * calc.js
  * 用于计算的js库
  */
 
-var expExample = ['1', '+', '2', '+', "sin(", '3', ')']
+var expExample = ['3', '+', '2', '-', '5', '/', '5', '+', 'sin(' + '50' + ')']
 
-var b = "(4+5)/6*9*4"
+var b = "3+2-5/5"
 var c = "1-(9-7)/2"
 var k = b.split('');
-console.log('k',k);
+console.log('k', k);
 
 
 
@@ -67,13 +67,13 @@ _Calc.prototype = {
             } else {
                 //是符号的时候
                 let _temArray = [];
-              _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
-              _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
-                  console.log('----',this.calcStack);
-                  console.log('----',this.calcStack);
-                var _temNum = _Math[item](_temArray[0],_temArray[1]);
-                  console.log('-------------',this.calcStack);
-                
+                _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
+                _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
+                console.log('----', this.calcStack);
+                console.log('----', this.calcStack);
+                var _temNum = _Math[item](_temArray[0], _temArray[1]);
+                console.log('-------------', this.calcStack);
+
 
                 this.calcStack.push(_temNum);
             }
@@ -81,7 +81,7 @@ _Calc.prototype = {
 
 
 
-        },this);
+        }, this);
     },
     _genSubfix: function () {
         this.exp.forEach(function (item) {
@@ -106,16 +106,16 @@ _Calc.prototype = {
                         // console.log(this.bracketNum);
                         let _tem = this.bracketNum.pop();
                         // console.log('_TEM',_tem);
-                        console.log('这个时候1',this.symbolStack);
-                        
+                        console.log('这个时候1', this.symbolStack);
+
                         let _tem2 = this.symbolStack.splice(_tem);
-                        console.log('_tem2',_tem2);
+                        console.log('_tem2', _tem2);
                         _tem2.shift();
-                    //    this.symbolStack.pop();//拿掉 (
-                        console.log('这个时候',this.symbolStack);
+                        //    this.symbolStack.pop();//拿掉 (
+                        console.log('这个时候', this.symbolStack);
                         this.numberStack = this.numberStack.concat(_tem2);
-                        console.log("找到右边括号后",this.numberStack );
-                        console.log("找到右边括号后",this.symbolStack );
+                        console.log("找到右边括号后", this.numberStack);
+                        console.log("找到右边括号后", this.symbolStack);
                         return false;
                     }
 
@@ -147,7 +147,7 @@ _Calc.prototype = {
                     }
 
 
-                    
+
 
                 } else {
 
@@ -163,40 +163,67 @@ _Calc.prototype = {
         }, this);
 
 
-       this.numberStack=this.numberStack.concat(this.symbolStack.reverse());
+        this.numberStack = this.numberStack.concat(this.symbolStack.reverse());
+    },
+    _monocary(item) {
+        /**
+         * 所有的单目运算 都在等待一个 ) 也就是 一旦有单目符号 便要压入栈中 
+           然后 brackNum 计数
+           在遇到 括) 之后 弹出 并且将 所有与之相关的符号都弹出 而这个 也放在 所有符号的后面
+           然后单目运算它
+       
+           单目运算符 优先级非常高
+         */
+
+        if (item == "sin(") {
+            this.numberStack.push('sin');//先放入
+            this.symbolStack.push('(');
+            this.bracketNum.push(this.symbolStack.length - 1);//记录下位置
+        }
+
     }
 }
 
 
 var _Math = {
-    "+":function(a, b) {
+    "+": function (a, b) {
         return Number(a) + Number(b);
     },
-    "-":function(a, b) {
-       return Number(a) - Number(b);
+    "-": function (a, b) {
+        return Number(a) - Number(b);
     },
-    "*":function(a, b) {
+    "*": function (a, b) {
         return Number(a) * Number(b);
     },
-    "/":function(a, b) {
+    "/": function (a, b) {
         return Number(a) / Number(b);
     }
 }
 
-var _Phase = function(){
+var _Phase = function () {
     /**
      * 解析算式用的函数
      */
 }
 
 
-var _monocary = function(){
- /**
-  * 所有的单目运算
-  */
+function _monocary(item, symbolStack, numberStack) {
+    /**
+     * 所有的单目运算 都在等待一个 ) 也就是 一旦有单目符号 便要压入栈中 
+       然后 brackNum 计数
+       在遇到 括) 之后 弹出 并且将 所有与之相关的符号都弹出 而这个 也放在 所有符号的后面
+       然后单目运算它
+   
+       单目运算符 优先级非常高
+     */
+
+    if (item == "sin(") {
+        numberStack.push(item);
+        this.bracketNum.push(this.symbolStack.length - 1);
+
+    }
+
 }
-
-
 
 
 
