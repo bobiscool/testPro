@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-21 00:01:43
+ * @Last Modified time: 2017-09-21 00:04:39
  * calc.js
  * 用于计算的js库
  * 
@@ -47,11 +47,13 @@ var whetherHas = {
 }
 
 
-function Calc(exp) {
-    var _tem = new _Calc(exp);
+function Calc(expr) {
+    var _expP = new _Phase(expr);
+    _expP._parse();
+    var _tem = new _Calc(_expP.expA);
 
     _tem._genSubfix();
-    console.log('numberStack', _tem.numberStack);
+    // console.log('numberStack', _tem.numberStack);
 
     _tem._calculate();
     return _tem.calcStack[0];
@@ -384,5 +386,7 @@ var T = new _Phase('13+sin(2)-cos(5/5/5^6)');
 T._parse();
 console.log(T.expA);
 
+
+console.log(Calc('13+sin(2)-cos(5/5/5^6)'));
 
 // console.log(Calc(expExample3));
