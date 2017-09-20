@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 13:39:10
+ * @Last Modified time: 2017-09-20 13:56:39
  * calc.js
  * 用于计算的js库
  */
@@ -67,8 +67,10 @@ _Calc.prototype = {
             } else {
                 //是符号的时候
                 let _temArray = [];
-                _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
-                _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
+                let _l = this.calcStack.length;
+                _temArray = this.calcStack.splice(_l-_getMu[item]);
+                // _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
+                // _temArray.unshift(this.calcStack.pop());//拿到数字堆栈 最后两数
                 console.log('----', this.calcStack);
                 console.log('----', this.calcStack);
                 var _temNum = _Math[item](_temArray[0], _temArray[1]);
