@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-20 18:32:37
+ * @Last Modified time: 2017-09-20 18:46:52
  * calc.js
  * 用于计算的js库
  * 
@@ -274,19 +274,39 @@ var _Phase = function (expr) {
     this._index = 0;
     this._c = "";
     this._comment = "";
+    this.expA = [];
 }
 
 _Phase.prototype = {
     _parse: function () {
         this._c = this.expr[0];
         if (!isNaN(Number(this._c))){
+            //是一个数字 那就继续看看还是不是数组
+            this._comment=this._c;
             
+            this._genComp();
         }
 
     },
     _next: function () {
       this._index++;  
       this._c = this.expr[this._index];
+    },
+    _genComp:function(){
+       this._next();
+       if (!isNaN(Number(this._c))){
+            this._comment=this._comment+''+this._c;
+            this._genComp();
+        }else {
+            this.expA.push(this._comment);
+            this.expA.push(this._c);
+            this._comment = "";
+            if(this._index<(this.expr.length-1)){
+            this._genComp();            
+            }else{
+                return false;
+            }
+        }
     }
 }
 
@@ -309,6 +329,9 @@ var _Short = {
 
 
 
+var T = new _Phase('13+2-5/5');
+T._parse();
+console.log(T.expA);
 
 
-console.log(Calc(expExample3));
+// console.log(Calc(expExample3));
