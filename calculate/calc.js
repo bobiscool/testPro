@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-21 00:11:12
+ * @Last Modified time: 2017-09-21 10:28:05
  * calc.js
  * 用于计算的js库
  * 
@@ -46,6 +46,11 @@ var whetherHas = {
     "m": 2,
 }
 
+var specialNum = {
+    "π": Math.PI,
+    "e": Math.E
+}
+
 
 function Calc(expr) {
     var _expP = new _Phase(expr);
@@ -85,7 +90,7 @@ _Calc.prototype = {
         console.log(this.numberStack);
         this.numberStack.forEach(function (item) {
 
-            if (!isNaN(Number(item))) {
+            if (isNumber(item)) {
                 this.calcStack.push(item);
             } else {
                 //是符号的时候
@@ -257,28 +262,28 @@ var _getMu = {// 参与运算的运算因子 数目
 
 var _Math = { // 具体的算术运算符
     "+": function (a) {
-        return Number(a[0]) + Number(a[1]);
+        return ctNumber(a[0]) + ctNumber(a[1]);
     },
     "-": function (a) {
-        return Number(a[0]) - Number(a[1]);
+        return ctNumber(a[0]) - ctNumber(a[1]);
     },
     "*": function (a) {
-        return Number(a[0]) * Number(a[1]);
+        return ctNumber(a[0]) * ctNumber(a[1]);
     },
     "/": function (a) {
-        return Number(a[0]) / Number(a[1]);
+        return ctNumber(a[0]) / ctNumber(a[1]);
     },
     "^": function (a) {
-        return Math.pow(Number(a[0]), Number(a[1]));
+        return Math.pow(ctNumber(a[0]), ctNumber(a[1]));
     },
     "sin": function (a) {
-        return Math.sin(Number(a[0]));
+        return Math.sin(ctNumber(a[0]));
     },
     "cos": function (a) {
-        return Math.cos(Number(a[0]));
+        return Math.cos(ctNumber(a[0]));
     },
     "tan": function (a) {
-        return Math.tan(Number(a[0]));
+        return Math.tan(ctNumber(a[0]));
     }
 }
 
@@ -311,8 +316,10 @@ _Phase.prototype = {
     },
     _genComp: function () {
         this._next();
-        if (!isNaN(Number(this._c))) {
-            console.log('数字', this._c)
+        if (isNumber(this._c)) {
+
+            // 是number 还得分两种
+
             if (this._sym2) {
                 //如果是 true 说明 前面存在一个符号
                 this.expA.push(this._comment);
@@ -320,15 +327,24 @@ _Phase.prototype = {
                 this._sym2 = false;
             }
 
+            if (isNumber(this._c) == "snumber") {
+                this._updateExpa();
+                this.expA.push(this._c);
+                this._genComp();
+                return false
+            }
+
+
+
             this._comment = this._comment + this._c;
             this._genComp();
         } else {
             // 如果是 符号 
             if (whetherHas[this._c] == 1 && !this._sym2) {
                 // 如果是 第一种 符号  并且不是在第二种搜集模式里面
-                if(this._comment){
-                this.expA.push(this._comment);//右括号 与其他双目符号相遇
-                }                
+                if (this._comment) {
+                    this.expA.push(this._comment);//右括号 与其他双目符号相遇
+                }
                 this.expA.push(this._c);
                 this._comment = "";
             }
@@ -354,15 +370,42 @@ _Phase.prototype = {
             } else {
                 console.log('终止')
 
-                if(this._comment){
-                this.expA.push(this._comment);
+                if (this._comment) {
+                    this.expA.push(this._comment);
                 }
                 return false;
             }
         }
+    },
+    _updateExpa: function () {
+        if (this._comment) {
+            this.expA.push(this._comment);
+        }
+
+        this._comment = "";
     }
 }
 
+
+
+function isNumber(item) {
+    if (!isNaN(Number(item))) {
+        return "number"
+    }
+
+    if (specialNum[item]) {
+        return "snumber"
+    }
+}
+
+
+function ctNumber(item){
+   if(specialNum[item]){
+       return specialNum[item]
+   }else {
+       return Number(item);
+   }
+}
 
 var _Short = {
     "sin(": "sin",
@@ -382,11 +425,11 @@ var _Short = {
 
 
 
-var T = new _Phase('13+sin(2)-cos(5/5/5^6)');
-T._parse();
-console.log(T.expA);
+// var T = new _Phase('13+sin(π)-cos(0)-tan(45)');
+// T._parse();
+// console.log(T.expA);
 
 
-console.log(Calc('13+sin(0)-cos(0)-tan(45)'));
+console.log(Calc('13+sin(π)-cos(0)-tan(45)'));
 
 // console.log(Calc(expExample3));
