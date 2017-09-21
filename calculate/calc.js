@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-21 00:04:39
+ * @Last Modified time: 2017-09-21 00:11:12
  * calc.js
  * 用于计算的js库
  * 
@@ -387,6 +387,6 @@ T._parse();
 console.log(T.expA);
 
 
-console.log(Calc('13+sin(2)-cos(5/5/5^6)'));
+console.log(Calc('13+sin(0)-cos(0)-tan(45)'));
 
 // console.log(Calc(expExample3));
