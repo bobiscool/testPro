@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-21 10:28:05
+ * @Last Modified time: 2017-09-25 18:24:43
  * calc.js
  * 用于计算的js库
  * 
@@ -297,6 +297,8 @@ var _Phase = function (expr) {
     this._comment = "";
     this.expA = [];
     this._sym2 = false;
+    this._demicalNum=0;
+    this.canBeCalc = true;
 }
 
 _Phase.prototype = {
@@ -335,11 +337,19 @@ _Phase.prototype = {
             }
 
 
+            if(isNumber(this._c)=="demical"){
+                this._demicalNum++;
+            }
+
+            if(this._demicalNum>=2){
+                this.canBeCalc = false;
+            }
 
             this._comment = this._comment + this._c;
             this._genComp();
         } else {
             // 如果是 符号 
+            this._demicalNum=0;
             if (whetherHas[this._c] == 1 && !this._sym2) {
                 // 如果是 第一种 符号  并且不是在第二种搜集模式里面
                 if (this._comment) {
@@ -396,6 +406,11 @@ function isNumber(item) {
     if (specialNum[item]) {
         return "snumber"
     }
+
+
+    if(item == "."){
+        return "demical"
+    }
 }
 
 
@@ -430,6 +445,6 @@ var _Short = {
 // console.log(T.expA);
 
 
-console.log(Calc('13+sin(π)-cos(0)-tan(45)'));
+console.log(Calc('1.3.+sin(π)-cos(0.2)-tan(4.5)'));
 
 // console.log(Calc(expExample3));
