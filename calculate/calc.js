@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-25 18:24:43
+ * @Last Modified time: 2017-09-25 18:33:08
  * calc.js
  * 用于计算的js库
  * 
@@ -55,13 +55,20 @@ var specialNum = {
 function Calc(expr) {
     var _expP = new _Phase(expr);
     _expP._parse();
-    var _tem = new _Calc(_expP.expA);
 
-    _tem._genSubfix();
-    // console.log('numberStack', _tem.numberStack);
+    if (_expP.canBeCalc) {
+        var _tem = new _Calc(_expP.expA);
 
-    _tem._calculate();
-    return _tem.calcStack[0];
+        _tem._genSubfix();
+        // console.log('numberStack', _tem.numberStack);
+
+        _tem._calculate();
+        return _tem.calcStack[0];
+    }else{
+        console.log(_expP.expA);
+        console.log("数据有问题 无法计算！！")
+    }
+
 }
 
 
@@ -297,7 +304,7 @@ var _Phase = function (expr) {
     this._comment = "";
     this.expA = [];
     this._sym2 = false;
-    this._demicalNum=0;
+    this._demicalNum = 0;
     this.canBeCalc = true;
 }
 
@@ -337,11 +344,11 @@ _Phase.prototype = {
             }
 
 
-            if(isNumber(this._c)=="demical"){
+            if (isNumber(this._c) == "demical") {
                 this._demicalNum++;
             }
 
-            if(this._demicalNum>=2){
+            if (this._demicalNum >= 2) {
                 this.canBeCalc = false;
             }
 
@@ -349,7 +356,11 @@ _Phase.prototype = {
             this._genComp();
         } else {
             // 如果是 符号 
-            this._demicalNum=0;
+            this._demicalNum = 0;
+            if (this._comment == '.') {
+                //如果数字 最后一个是小数点 那不能计算
+                this.canBeCalc = false;
+            }
             if (whetherHas[this._c] == 1 && !this._sym2) {
                 // 如果是 第一种 符号  并且不是在第二种搜集模式里面
                 if (this._comment) {
@@ -408,18 +419,18 @@ function isNumber(item) {
     }
 
 
-    if(item == "."){
+    if (item == ".") {
         return "demical"
     }
 }
 
 
-function ctNumber(item){
-   if(specialNum[item]){
-       return specialNum[item]
-   }else {
-       return Number(item);
-   }
+function ctNumber(item) {
+    if (specialNum[item]) {
+        return specialNum[item]
+    } else {
+        return Number(item);
+    }
 }
 
 var _Short = {
@@ -445,6 +456,6 @@ var _Short = {
 // console.log(T.expA);
 
 
-console.log(Calc('1.3.+sin(π)-cos(0.2)-tan(4.5)'));
+console.log(Calc('1.3+sin(π)-cos(0.2)-tan(4.5)'));
 
 // console.log(Calc(expExample3));
