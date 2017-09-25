@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-25 18:33:08
+ * @Last Modified time: 2017-09-26 00:01:36
  * calc.js
  * 用于计算的js库
  * 
@@ -55,6 +55,7 @@ var specialNum = {
 function Calc(expr) {
     var _expP = new _Phase(expr);
     _expP._parse();
+    console.log(_expP.expA);
 
     if (_expP.canBeCalc) {
         var _tem = new _Calc(_expP.expA);
@@ -311,20 +312,21 @@ var _Phase = function (expr) {
 _Phase.prototype = {
     _parse: function () {
         this._c = this.expr[0];
-        if (!isNaN(Number(this._c))) {
+        if (isNumber(this._c)) {
             //是一个数字 那就继续看看还是不是数组
             this._comment = this._c;
-
             this._genComp();
         }
 
     },
     _next: function () {
         this._index++;
+        
         this._c = this.expr[this._index];
     },
     _genComp: function () {
         this._next();
+        console.log(this._c);
         if (isNumber(this._c)) {
 
             // 是number 还得分两种
@@ -456,6 +458,6 @@ var _Short = {
 // console.log(T.expA);
 
 
-console.log(Calc('1.3+sin(π)-cos(0.2)-tan(4.5)'));
+console.log(Calc('π^2'));
 
 // console.log(Calc(expExample3));
