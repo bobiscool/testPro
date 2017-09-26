@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 10:39:57
+ * @Last Modified time: 2017-09-26 10:43:44
  * calc.js
  * 用于计算的js库
  * 
@@ -156,7 +156,7 @@ _Calc.prototype = {
 
 
 
-                  
+
 
                     if (item == ")" && this.bracketNum.length > 0) {
                         // console.log(this.bracketNum);
@@ -329,7 +329,7 @@ _Phase.prototype = {
             this._comment = this._c;
             this._genComp();
         }
-
+        this._addBracket(this.expA);
     },
     _next: function () {
         this._index++;
@@ -420,6 +420,10 @@ _Phase.prototype = {
         }
 
         this._comment = "";
+    },
+    _addBracket(expA) {
+        // 为了幂运算 特别添加括号
+       console.log('addB',expA);
     }
 }
 
@@ -448,6 +452,11 @@ function ctNumber(item) {
         return Number(item);
     }
 }
+
+
+
+
+
 
 var _Short = {
     "sin(": "sin",
