@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 11:16:54
+ * @Last Modified time: 2017-09-26 13:56:58
  * calc.js
  * 用于计算的js库
  * 
@@ -87,6 +87,8 @@ function _Calc(exp) {
     //特别用于 幂计算处理的栈
     this.powerNum = 0;
     this.powering = false;
+    this.poweringBracket = false;
+    this.poweringBracketNum = [];
 
     // 计算用的栈
     this.calcStack = [];
@@ -157,22 +159,45 @@ _Calc.prototype = {
 
 
 
-                    
-                   if(this.powering&&item=="^"){
-                       this.symbolStack.push(item);
-                       return false;
-                   }else if(this.powering&&item!="^"&&item!="("){
-                       this.powering = false;
-                       this.numberStack = this.numberStack.concat(this.symbolStack.splice(this.powerNum));
-                       this.symbolStack.push(item);// 将幂 全部发到numberStack
-                       this.powerNum = 0;
-                       return false;
-                   }
-                    
-                   if(!this.powering&&item=="^"){
-                          this.powering = true;//正在记录幂
+
+                    if (this.powering && item == "^") {
+                        this.symbolStack.push(item);
+                        return false;
+                    }
+
+
+                    if (this.powering && item == "(") {
+                        this.poweringBracket = true;
+                        this.symbolStack.push(item);// 将幂 全部发到numberStack
+                        this.poweringBracketNum.push(this.symbolStack.length - 1);
+                        return false;
+                    }
+
+
+                    if (this.powering && item == ")" && this.poweringBracket) {
+                        let _tem2 = this.symbolStack.splice(this.poweringBracketNum.pop());
+                        console.log('_tem2', _tem2);
+                        if (_tem2[0] == '(') {
+                            _tem2.shift();
+                        }
+                        this.numberStack = this.numberStack.concat(_tem2);
+                        if (this.poweringBracketNum.length == 0) {
+                            this.powering = false;
+                            this.poweringBracket = false;
+                            this.numberStack = this.numberStack.concat(this.symbolStack.splice(this.powerNum));
+                            this.powerNum = 0;
+
+                        }
+                        return false;
+                    }
+
+
+
+
+                    if (!this.powering && item == "^") {
+                        this.powering = true;//正在记录幂
                         this.powerNum = this.symbolStack.length - 1;//记录最初幂的位置 
-                   }
+                    }
 
 
                     if (item == ")" && this.bracketNum.length > 0) {
@@ -248,7 +273,7 @@ _Calc.prototype = {
                         this.bracketNum.push(this.symbolStack.length - 1);
                     }
 
-                    if(item == "^"){
+                    if (item == "^") {
                         this.powering = true;//正在记录幂
                         this.powerNum = this.symbolStack.length - 1;//记录最初幂的位置 
                     }
@@ -445,9 +470,9 @@ _Phase.prototype = {
     },
     _addBracket(expA) {
         // 为了幂运算 特别添加括号
-       console.log('addB',expA);
+        console.log('addB', expA);
 
-       
+
     }
 }
 
@@ -505,6 +530,6 @@ var _Short = {
 // console.log(T.expA);
 
 
-console.log(Calc('e^2^4-1'));
+console.log(Calc('2^2^(4+2)'));
 
 // console.log(Calc(expExample3));
