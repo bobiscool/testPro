@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 13:56:58
+ * @Last Modified time: 2017-09-26 14:03:59
  * calc.js
  * 用于计算的js库
  * 
@@ -530,6 +530,6 @@ var _Short = {
 // console.log(T.expA);
 
 
-console.log(Calc('2^2^(4+2)'));
+console.log(Calc('2^2^(4+2^2)'));
 
 // console.log(Calc(expExample3));
