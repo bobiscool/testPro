@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 14:03:59
+ * @Last Modified time: 2017-09-26 14:05:53
  * calc.js
  * 用于计算的js库
  * 
@@ -180,7 +180,7 @@ _Calc.prototype = {
                         if (_tem2[0] == '(') {
                             _tem2.shift();
                         }
-                        this.numberStack = this.numberStack.concat(_tem2);
+                        this.numberStack = this.numberStack.concat(_tem2.reverse());
                         if (this.poweringBracketNum.length == 0) {
                             this.powering = false;
                             this.poweringBracket = false;
@@ -530,6 +530,6 @@ var _Short = {
 // console.log(T.expA);
 
 
-console.log(Calc('2^2^(4+2^2)'));
+console.log(Calc('2^(1+2^2)'));
 
 // console.log(Calc(expExample3));
