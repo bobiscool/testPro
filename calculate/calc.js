@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 10:43:44
+ * @Last Modified time: 2017-09-26 11:16:54
  * calc.js
  * 用于计算的js库
  * 
@@ -85,7 +85,8 @@ function _Calc(exp) {
     this.numberStack = [];
     this.bracketNum = [];
     //特别用于 幂计算处理的栈
-    this.powerStack = [];
+    this.powerNum = 0;
+    this.powering = false;
 
     // 计算用的栈
     this.calcStack = [];
@@ -156,6 +157,22 @@ _Calc.prototype = {
 
 
 
+                    
+                   if(this.powering&&item=="^"){
+                       this.symbolStack.push(item);
+                       return false;
+                   }else if(this.powering&&item!="^"&&item!="("){
+                       this.powering = false;
+                       this.numberStack = this.numberStack.concat(this.symbolStack.splice(this.powerNum));
+                       this.symbolStack.push(item);// 将幂 全部发到numberStack
+                       this.powerNum = 0;
+                       return false;
+                   }
+                    
+                   if(!this.powering&&item=="^"){
+                          this.powering = true;//正在记录幂
+                        this.powerNum = this.symbolStack.length - 1;//记录最初幂的位置 
+                   }
 
 
                     if (item == ")" && this.bracketNum.length > 0) {
@@ -229,6 +246,11 @@ _Calc.prototype = {
                     // console.log('symbolStack', this.symbolStack);
                     if (item == "(") {
                         this.bracketNum.push(this.symbolStack.length - 1);
+                    }
+
+                    if(item == "^"){
+                        this.powering = true;//正在记录幂
+                        this.powerNum = this.symbolStack.length - 1;//记录最初幂的位置 
                     }
 
                 }
@@ -424,6 +446,8 @@ _Phase.prototype = {
     _addBracket(expA) {
         // 为了幂运算 特别添加括号
        console.log('addB',expA);
+
+       
     }
 }
 
@@ -481,6 +505,6 @@ var _Short = {
 // console.log(T.expA);
 
 
-console.log(Calc('e^2^4'));
+console.log(Calc('e^2^4-1'));
 
 // console.log(Calc(expExample3));
