@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 00:02:12
+ * @Last Modified time: 2017-09-26 10:11:47
  * calc.js
  * 用于计算的js库
  * 
@@ -359,7 +359,7 @@ _Phase.prototype = {
         } else {
             // 如果是 符号 
             this._demicalNum = 0;
-            if (this._comment == '.') {
+            if (this._comment[this._comment.length-1] == '.') {
                 //如果数字 最后一个是小数点 那不能计算
                 this.canBeCalc = false;
             }
@@ -458,6 +458,6 @@ var _Short = {
 // console.log(T.expA);
 
 
-console.log(Calc('e^2'));
+console.log(Calc('e^(2^4)'));
 
 // console.log(Calc(expExample3));
