@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-19 12:47:19 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 10:11:47
+ * @Last Modified time: 2017-09-26 10:39:57
  * calc.js
  * 用于计算的js库
  * 
@@ -35,6 +35,7 @@ var expRank = {
 var whetherHas = {
     "^": 1,
     ")": 1,
+    "(": 1,
     "/": 1,
     "*": 1,
     "+": 1,
@@ -65,7 +66,7 @@ function Calc(expr) {
 
         _tem._calculate();
         return _tem.calcStack[0];
-    }else{
+    } else {
         console.log(_expP.expA);
         console.log("数据有问题 无法计算！！")
     }
@@ -83,6 +84,8 @@ function _Calc(exp) {
     //左右两边的栈
     this.numberStack = [];
     this.bracketNum = [];
+    //特别用于 幂计算处理的栈
+    this.powerStack = [];
 
     // 计算用的栈
     this.calcStack = [];
@@ -152,6 +155,9 @@ _Calc.prototype = {
                     }
 
 
+
+                  
+
                     if (item == ")" && this.bracketNum.length > 0) {
                         // console.log(this.bracketNum);
                         let _tem = this.bracketNum.pop();
@@ -186,6 +192,12 @@ _Calc.prototype = {
                             this.symbolStack.push(item);
                         } else {
                             // 如果当前遇到的符号 优先级 小于 等于 前面的 那就直接 弹出栈
+
+                            // 这里再添加一个限制 ^ 是最后面 的最高级
+
+
+
+
                             console.log('弹出');
                             console.log('原', this.symbolStack)
                             this.numberStack.push(this.symbolStack.pop());
@@ -321,7 +333,7 @@ _Phase.prototype = {
     },
     _next: function () {
         this._index++;
-        
+
         this._c = this.expr[this._index];
     },
     _genComp: function () {
@@ -359,10 +371,12 @@ _Phase.prototype = {
         } else {
             // 如果是 符号 
             this._demicalNum = 0;
-            if (this._comment[this._comment.length-1] == '.') {
+            if (this._comment[this._comment.length - 1] == '.') {
                 //如果数字 最后一个是小数点 那不能计算
                 this.canBeCalc = false;
             }
+
+
             if (whetherHas[this._c] == 1 && !this._sym2) {
                 // 如果是 第一种 符号  并且不是在第二种搜集模式里面
                 if (this._comment) {
@@ -458,6 +472,6 @@ var _Short = {
 // console.log(T.expA);
 
 
-console.log(Calc('e^(2^4)'));
+console.log(Calc('e^2^4'));
 
 // console.log(Calc(expExample3));
